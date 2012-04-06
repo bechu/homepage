@@ -12,7 +12,38 @@ $(document).ready(function() {
 var timeline = new VMM.Timeline();
 timeline.init("https://docs.google.com/spreadsheet/pub?key=0AhQ3Ga1aqsOsdE1oRE1JRGlwYzJscElEcGxfSGJVaHc&single=true&gid=0&output=html");
 });
-</script>
+</script>		<style type="text/css">
+			body {
+				padding-top: 40px;
+				padding-bottom: 40px;
+			}
+			#timeline {
+				height:600px;
+				position:relative;
+				z-index:100;
+				clear:both;
+				
+			}
+			
+			.with-shadow {
+				border: 1px solid #FFF;
+
+				margin-top:5px;
+				-webkit-border-radius: 10px;
+			     -moz-border-radius: 10px;
+			          border-radius: 10px;
+				
+				-moz-box-shadow: 0 1px 3px rgba(0,0,0,.25);
+					-webkit-box-shadow: 0 1px 3px rgba(0,0,0,.25);
+					box-shadow: 1px 2px 6px rgba(0,0,0,.25);
+			}
+			.marketing h2 {
+				margin: 36px 0 27px;
+				font-size: 40px;
+				font-weight: 300;
+				text-align: center;
+			}
+		</style>
 </head>
 
 <body>
@@ -39,8 +70,15 @@ timeline.init("https://docs.google.com/spreadsheet/pub?key=0AhQ3Ga1aqsOsdE1oRE1J
         </div>
       </div>
 
+    </div> 
+      <div class="well">
+     <div id="timeline-embed"><div id="timeline"></div></div>
     </div>
-    
-<div id="timeline"></div>
+   
+
+		      <ul class="nav nav-pills">
+    <li><a href="http://twitter.github.com/bootstrap/">Bootstrap, from Twitter</a></li>
+    <li><a href="http://timeline.verite.co/">Timeline</a></li>
+    </ul>
 </body>
 </html>
