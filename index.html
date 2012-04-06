@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>www.bechu.org</title>
+<link href="./css/bootstrap.css" rel="stylesheet">
+<link href="./css/timeline.css" rel="stylesheet">
+<script type="text/javascript" src="./js/jquery-min.js"></script>
+<script type="text/javascript" src="./js/timeline-min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+var timeline = new VMM.Timeline();
+timeline.init("https://docs.google.com/spreadsheet/pub?key=0AhQ3Ga1aqsOsdE1oRE1JRGlwYzJscElEcGxfSGJVaHc&single=true&gid=0&output=html");
+});
+</script>
+</head>
+
+<body>
+	
+  <div class="navbar navbar-fixed-top">
+	  
+          
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Jerome Bechu Homepage</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">CV (Timeline)</a></li>
+              <li><a href="#about">Resume pdf (English)</a></li>
+              <li><a href="#contact">Resume pdf (French)</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    
+<div id="timeline"></div>
+</body>
+</html>
