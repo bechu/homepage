@@ -4367,14 +4367,14 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			nav_width: 100,
 			nav_height: 200,
 			timeline: false,
-			spacing: 15,
+			spacing: 40,
 			marker_width: 150,
 			marker_height: 48,
 			density: 2,
 			timeline_width: 900,
 			interval_width: 200,
 			rows: [1, 1, 1],
-			multiplier: 6,
+			multiplier: 1,
 			max_multiplier:16,
 			min_multiplier:1,
 			has_start_page:false,
@@ -4440,6 +4440,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			} else {
 				trace("WAITING ON DATA");
 			}
+			onBackHome(0);
 		};
 		
 		/* GETTERS AND SETTERS
@@ -4519,7 +4520,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 		
 		function onBackHome(e) {
 			VMM.DragSlider.cancelSlide();
-			goToMarker(0);
+			goToMarker(data.length-1);
 			upDate();
 		}
 		/* MARKER EVENTS
@@ -4601,7 +4602,6 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 					lineevent: _marker_line_event,
 					type: "marker"
 				};
-				
 				
 				if (data[i].type == "start") {
 					trace("BUILD MARKER HAS START PAGE")
