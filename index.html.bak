@@ -1,0 +1,215 @@
+<html lang="fr">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <title>Jérôme Béchu</title>
+    <link href="./css/bootstrap.css" rel="stylesheet">
+    <link href="./css/homepage.css" rel="stylesheet">
+    <meta content="Jerome Bechu" name="author">
+    <meta content="resume, CV" name="description">
+  </head>
+  <body>
+    <div class="container test1 test2 page shadow">
+      <hr>
+      <div class="row">
+        <div class="span6"> <img src="./img/jerome.jpg" class="img-polaroid" width="200px">
+        </div>
+        <div class="span6">
+          <address>
+            <h1>Jérôme Béchu</h1>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th><i class="icon-home icon-large"></i><br>
+                  </th>
+                  <th>6 rue Turenne <br>
+                    51100 Reims</th>
+                </tr>
+                <tr>
+                  <th><i class="icon-envelope icon-large"></i><br>
+                  </th>
+                  <th><a href="mailto:bechu.jerome@gmail.com">bechu.jerome@gmail.com</a></th>
+                </tr>
+                <tr>
+                  <th><i class="icon-phone icon-large"></i><br>
+                  </th>
+                  <th>06 09 57 98 42</th>
+                </tr>
+                <tr>
+                  <th><i class="icon-github icon-large"></i><br>
+                  </th>
+                  <th><a href="https://github.com/bechu">https://github.com/bechu</a></th>
+                </tr>
+              </tbody>
+            </table>
+            <div class="span3 pull-right">
+              <p><a href="#" class="btn w101"><i class="icon-print"></i> Print</a>
+                <a href="#" class="btn w101"><i class="icon-download-alt"></i>
+                  Download</a></p>
+            </div>
+          </address>
+        </div>
+      </div>
+      <hr>
+      <div class="well"> Ceci est un test de jérômeéééé<br>
+      </div>
+      <hr>
+      <div class="row">
+        <ul class="nav nav-list">
+          <li class="active">
+            <h1><a href="javascript:"><i class="icon-white icon-tags"></i><strong>
+                  Experiences professionnelles </strong></a></h1>
+          </li>
+        </ul>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th><font color="transparent"><h2><i class="icon-black icon-check"></i>
+                Ingénieur expert</h2></font><br>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <p><a href="http://flowers.inria.fr">Equipe FLOWERS</a>, <a href="http://www.inria.fr">INRIA</a>,
+                  BORDEAUX</p>
+                <p>Équipe FLOWERS, INRIA, BORDEAUX Etude, conception et
+                  implémentation de la plateforme ErgoRobot pour une exposition
+                  à la Fondation CARTIER (Expérimentation robotique sur une
+                  durée de 6 mois). Implémentation d'outils variés d'aide à la
+                  recherche.</p>
+              </td>
+            </tr>
+            <tr>
+              <th><h2><i class="icon-black icon-check"></i> Ingénieur jeune diplomé<a
+                href="http://flowers.inria.fr"></h2></a></th>
+            </tr>
+            <tr>
+              <td>
+                <p><a href="http://flowers.inria.fr">Equipe FLOWERS</a>, <a href="http://www.inria.fr">INRIA</a>,
+                  BORDEAUX <br>
+                </p>
+                <p>Équipe FLOWERS, INRIA, BORDEAUX Élaboration de
+                  l'infrastructure logicielle de l'équipe, d'outils et
+                  d'implémentations variées de logiciels (contrôles moteurs,
+                  senseurs). Mise en place d'expérimentations robotiques
+                  diverses&nbsp;: conception et implémentation de Flowers
+                  Fields, développements autour du robot Acroban.</p>
+              </td>
+            </tr>
+            <tr>
+              <th><h2><i class="icon-black icon-check"></i> Stage de
+                recherche en intelligence artificielle</h2>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <p>Équipe MAIA, LORIA, NANCY Implémentation d'un algorithme de
+                  machine learning (apprentissage par renforcement) sur un robot
+                  mobile (WIFIBOT).</p>
+                <p></p>
+              </td>
+            </tr>
+            <tr>
+              <th><i class="icon-black icon-check"></i> Stage de recherche en
+                réseau<br>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <p>Laboratoire de recherche en téléinformatique, UQAM, MONTREAL
+                  Implémentation d'une solution de signalisation de paquets pour
+                  des réseaux optiques (Optical Burst Switching) dans un
+                  environnement de simulation.</p>
+                <p></p>
+              </td>
+            </tr>
+            <tr>
+              <th><i class="icon-black icon-check"></i> Développeur logiciel sur
+                automate bancaire<br>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <p>FICHET-BAUCHE, GUNNEBO GROUP, REIMS Développement de
+                  logiciels pour automates de dépôts et de consignes bancaires.
+                  Rédaction des spécifications fonctionelles et
+                  techniques&nbsp;; tests et recettes logiciels.</p>
+                <p></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <ul class="nav nav-list">
+          <li class="active">
+            <h1><a href="javascript:"><i class="icon-white icon-tags"></i><strong>
+                  Compétences </strong></a></h1>
+          </li>
+        </ul>
+        <div class="row">
+                <div class="span1"><span class="label ">PHP</span></div><div class="progress progress-info progress-striped span11"><div style="width: 88%" class="bar"></div></div>
+                <div class="span1"><span class="label ">C++</span></div><div class="progress progress-info progress-striped span11"><div style="width: 88%" class="bar"></div></div>
+        </div>
+      </div>
+      <div class="row">
+        <ul class="nav nav-list">
+          <li class="active">
+            <h1><a href="javascript:"><i class="icon-white icon-tags"></i><strong>
+                  Formation </strong></a></h1>
+          </li>
+        </ul>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th><h2><i class="icon-black icon-check"></i> Manager des systèmes
+                d'information, <a href="http://www.exia.cesi.fr/">eXia</a>,
+                Bac+5, Niveau I</h2>
+              </th>
+            </tr>
+            <tr>
+              <th><h2><i class="icon-black icon-check"></i> Responsable en
+                ingénierie logiciels, <a href="http://www.exia.cesi.fr/">eXia</a>,
+                Bac+4, Niveau II</h2>
+              </th>
+            </tr>
+            <tr>
+              <th><h2><i class="icon-black icon-check"></i> BTS Informatique de
+                Gestion, Bac+2, Niveau III</h2>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <ul class="nav nav-list">
+          <li class="active">
+            <h1><a href="javascript:">
+                <h2><i class="icon-white icon-tags"></i><strong> Projets
+                    personnels </strong></h2>
+              </a></h1>
+          </li>
+        </ul>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th><span class="label ">PHP</span>
+                <div class="progress">
+                  <div style="width: 88%" class="bar"></div>
+                </div>
+              </th>
+            </tr>
+            <tr>
+              <th><i class="icon-black icon-check"></i> Responsable en
+                ingénierie logiciels, eXia </th>
+            </tr>
+            <tr>
+              <th><i class="icon-black icon-check"></i> BTS Informatique de
+                Gestion </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr>
+  </body>
+</html>
