@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="container">
-      <div class="row">
+      <div class="row-fluid">
         <div class="span6">
           <div class="well shadow goodheight">
             <h1>
@@ -82,16 +82,19 @@
           </div>
         </div>
       </div>
+     
+      
       <div class="row">
-        <div class="span12">
-          <div class="alert alert-error shadow"> Je suis à la recherche d'un
+          <div class="span12 alert alert-error shadow"> Je suis à la recherche d'un
             emploi, en <strong>ingénérie logicielle</strong>, plus exactement
             dans le secteur de la robotique ludique, apprentissage, interaction
             homme/machine, cognition.<br>
             N'hésitez pas à me contacter !<br>
           </div>
-        </div>
       </div>
+      
+      
+      
       <div class="row">
         <div class="span12">
           <h2>
@@ -108,6 +111,18 @@
                 <th> <span class="label label-warning">Systèmes</span> </th>
                 <th> <a href="http://www.archlinux.org">Linux</a>, Windows, Mac
                   OS X </th>
+              </tr>
+              <tr>
+                <th> <span class="label">Robotique</span> </th>
+                <th> <ul>
+                  <li>
+                    Contrôle moteur bas niveau (bioloid RX28/RX64)
+                  </li>
+                  <li>
+                    URBI / UObject
+                  </li>
+                  </ul>
+                  </th>
               </tr>
             </tbody>
           </table>
@@ -126,33 +141,46 @@
           <br>
         </p>
         <ul class="thumbnails">
+			
+			
+			
           <li class="span4">
             <div class="thumbnail thum shadow"> <img longdesc="img/fsf.jpg" title="fsf"
                 src="img/fsf.jpg" alt="fsf">
               <div class="caption">
                 <h3>Flowers Fields<br>
                 </h3>
-                <h3><span class="label label-warning">URBI / C++</span></h3>
-                <p align="justify">Flowers Fields est une installation robotique
-                  composé de bras lampe articulé. Ce prototype a été créer afin
+                <span class="label label-warning">URBI / C++</span>&nbsp;
+                <span class="label label-info">2010</span> &nbsp;<span class="label label-success">INRIA</span>
+                <p align="justify"><strong>Flowers Fields</strong> est une installation robotique
+                  composé de bras lampe articulés. 
+                  <br />
+                  
+                  La photo ci-dessus est le second prototype de cette installation.
+                  Basé sur des moteurs Bioloid <a href="http://www.robotis.com/xe/bioloid_en">RX-28</a>. Nous avons présenté ce robot à <a href="http://www.innorobo.com/">
+					  INNOROBOT</a>, à Lyon.
+                  
+                  <br />
+                  Ces prototypes ont été créée afin
                   d'explorer de nouvelles formes de robot personnelles qui
-                  pourrait être dans nos vies au quotidien.<br>
+                  pourrait, pourquoi pas, faire parti de nos vies au quotidien.<br>
                 </p>
                 <p><a href="http://flowers.inria.fr/flowers-garage.php" class="btn btn-primary">En
                     savoir plus ...</a></p>
               </div>
             </div>
           </li>
+          
+          
+          
           <li class="span4">
             <div class="thumbnail thum shadow"> <img longdesc="img/cartier.jpg"
                 src="img/cartier.jpg">
               <div class="caption">
                 <h3>Ergo-Robot</h3>
                 <span class="label label-warning">URBI / Python / C++ </span>
-					&nbsp;<span class="label label-info">2011</span>
-					&nbsp;<span class="label label-success">INRIA</span>
-                <p align="justify"> Dans un grand œuf à peine ouvert, entouré
-                  d'un zéro symbolisant l'"origine", une tribu de jeunes
+                &nbsp;<span class="label label-info">2011</span> &nbsp;<span class="label label-success">INRIA</span>
+                <p align="justify"> Dans un grand œuf à peine ouvert, une tribu de jeunes
                   créatures robotiques se développe et explore son
                   environnement. Au delà de leurs capacités innées, elles sont
                   équipées de mécanismes leur permettant de découvrir des
@@ -168,93 +196,100 @@
               </div>
             </div>
           </li>
+          
+          
+          
           <li class="span4">
             <div class="thumbnail thum shadow"> <img src="img/nao.jpg">
               <div class="caption">
-                <h3>IHM<br>
-                </h3>
-                <h3><span class="label label-warning">URBI / Python / C++ </span>
-                <span class="label label-info">2009</span>
-                </h3>
-                <p align="justify">Nous avons réalisé quelques interfaces pour
-                  les robots Nao et le chien Sony aibo. Une interface avec la
-                  wiimote, la wimote et un laser, et enfin un smartphone. Ces
-                  développements ont permis en parti de réaliser des expériences
-                  utilisateurs dans un musée de la science à Bordeaux et font
-                  parti de la thèse de Pierre Rouanet.<br>
-                </p>
+                <h3>IHM      </h3>
+                <span class="label label-warning">URBI / Python / C++ </span>&nbsp;
+                  <span class="label label-info">2009</span> &nbsp;<span class="label label-success">INRIA</span>
+                <p align="justify">
+					Au sein de l'équipe <a href="http://flowers.inria.fr">FLOWERS</a>, j'ai dévéloppé de nombres interfaces permettant d'intéragir avec des robots.
+					Notamment la wiimote, un laser, des caméras de toutes sorte.
+					<br />
+					A l'aide de ces développements nous avons réaliser des expériences robotique, en demandant à quelques personnes de tester nos interfaces
+					afin d'évaluer celles-ci.
+					
+					<br />
+					                </p>
                 <p><a href="http://www.theses.fr/2012BOR14510" class="btn btn-primary">En
                     savoir plus ...</a></p>
               </div>
             </div>
           </li>
+          
+          
         </ul>
         <ul class="thumbnails">
           <li class="span4">
             <div class="thumbnail thum shadow"> <img src="img/target.png">
               <div class="caption">
                 <h3>APRAM</h3>
-                <span class="label label-warning">C++ / GTK </span>
-					&nbsp;<span class="label label-info">2008</span>
-					&nbsp;<span class="label label-success">LORIA</span>
-                <p align="justify">
-					Implémentation d’un mécanisme d’ap-
-prentissage sur un robot pour lui permettre d’apprendre à se
-diriger vers une cible. Pour atteindre cet objectif on appliquera
-deux phases : l’apprentissage tutoré et l’apprentissage libre. Durant
-la phase d’apprentissage tutoré, un utilisateur indiquera les mou-
-vements adéquats au robot. Durant cet première phase d’apprentissage le robot doit être capable
-d’évaluer sa position par rapport à la cible afin d’être en mesure
-d’exploiter ces données. Durant la seconde phase, l’apprentissage
-libre, le robot doit être en mesure de localiser la cible à l’aide de sa
-caméra puis de choisir le mouvement approprié pour s’approcher
-de cette cible.
-                </p>
-                <p><a href="bechu_loria.pdf" class="btn btn-primary">Télécharger le rapport</a></p>
+                <span class="label label-warning">C++ / GTK </span> &nbsp;<span
+                  class="label label-info">2008</span> &nbsp;<span class="label label-success">LORIA</span>
+                <p align="justify"> Implémentation d’un mécanisme d’ap-
+                  prentissage sur un robot pour lui permettre d’apprendre à se
+                  diriger vers une cible. Pour atteindre cet objectif on
+                  appliquera deux phases : l’apprentissage tutoré et
+                  l’apprentissage libre. Durant la phase d’apprentissage tutoré,
+                  un utilisateur indiquera les mou- vements adéquats au robot.
+                  Durant cet première phase d’apprentissage le robot doit être
+                  capable d’évaluer sa position par rapport à la cible afin
+                  d’être en mesure d’exploiter ces données. Durant la seconde
+                  phase, l’apprentissage libre, le robot doit être en mesure de
+                  localiser la cible à l’aide de sa caméra puis de choisir le
+                  mouvement approprié pour s’approcher de cette cible. </p>
+                <p><a href="bechu_loria.pdf" class="btn btn-primary">Télécharger
+                    le rapport</a></p>
               </div>
             </div>
+            
+            
           </li>
           <li class="span4">
-            <div class="thumbnail thum shadow"> <img src="img/topo.png">
+            <div class="thumbnail thum shadow"><img src="img/obs.jpg" width="300px">
               <div class="caption">
-                <h3>OBS & NS2</h3>
-                <span class="label label-warning">C++ / OTcl / Tcl</span>
-					&nbsp;<span class="label label-info">2007</span>
-					&nbsp;<span class="label label-success">UQAM</span>
+                <h3>OBS &amp; NS2</h3>
+                <span class="label label-warning">C++ / OTcl / Tcl</span> &nbsp;<span
+                  class="label label-info">2007</span> &nbsp;<span class="label label-success">UQAM</span>
                 <p align="justify">
-Optical Burst Switching et NS2
-                </p>
-                <p><a href="http://www.theses.fr/2012BOR14510" class="btn btn-primary">En
-                    savoir plus ...</a></p>
+					
+					En 2007, j'ai réalisé un stage à l'UQAM à Montréal. Le stage consistait à mettre à jour le simulateur de réseau <a href="http://nsnam.isi.edu/nsnam/index.php/Main_Page">NS2</a> afin de
+					prendre en compte les spécificités des réseaux optiques de type <strong>Optical Burst Switching</strong>.
+					
+				<br />
+				La seconde parti du stage consistait à réaliser un éditeur de topologie réseau pour le simulateur de réseau NS2. J'ai 
+				choisi d'utiliser java et, à l'aide d'outil graphique, je générais le fichier d'entré pour le simulateur.
+				
+                <p><a href="bechu_uqam.pdf" class="btn btn-primary">Télécharger
+                    le rapport</a></p>
               </div>
             </div>
           </li>
+          
+          
           <li class="span4">
             <div class="thumbnail thum shadow"> <img src="img/clx.jpg">
               <div class="caption">
-                <h3>CLX</h3>
+                <h3>CLX / ADX / DLX</h3>
                 <span class="label label-warning">C++ / C / VB / PHP</span>
-					&nbsp;<span class="label label-info">2005</span>
-					&nbsp;<span class="label label-success">FICHET-BAUCHE</span>
+                                &nbsp;<span class="label label-info">2005</span> &nbsp;<span class="label label-success">FICHET-BAUCHE</span>
                 <p align="justify">
-					Implémentation d’un mécanisme d’ap-
-prentissage sur un robot pour lui permettre d’apprendre à se
-diriger vers une cible. Pour atteindre cet objectif on appliquera
-deux phases : l’apprentissage tutoré et l’apprentissage libre. Durant
-la phase d’apprentissage tutoré, un utilisateur indiquera les mou-
-vements adéquats au robot. Du-
-rant cet première phase d’apprentissage le robot doit être capable
-d’évaluer sa position par rapport à la cible afin d’être en mesure
-d’exploiter ces données. Durant la seconde phase, l’apprentissage
-libre, le robot doit être en mesure de localiser la cible à l’aide de sa
-caméra puis de choisir le mouvement approprié pour s’approcher
-de cette cible.
-                </p>
-                <p><a href="http://www.theses.fr/2012BOR14510" class="btn btn-primary">En
+					Lors de ma première expérience professionnels, j'ai conçu au sein d'un bureau d'étude plusieurs automates bancaires.
+					
+					J'ai travaillé pour de nombreuses banques. Le CLX est un automate de retrait, il est doté de case, et d'une porte de maintenance (permettant de charger
+					les cases). Il était possible de paramétrer la consigne pour permettre aux clients de venir récupérer des documents ou de l'argent, à l'aide de carte.
+					<br />
+					
+					J'ai également travailler sur deux automates de dépôt, le DLX et l'ADX. Pour le second, j'ai réalisé entierement le logiciel (de la spécification, au développement, tests et développement des outils de maintenance).</p>
+                <p><a href="http://www.fichet-bauche.com/Pages/default.aspx" class="btn btn-primary">En
                     savoir plus ...</a></p>
               </div>
             </div>
           </li>
+          
         </ul>
       </div>
       <div class="row-fluid">
@@ -266,54 +301,86 @@ de cette cible.
             <div class="thumbnail thum shadow"> <img src="http://placehold.it/300x200"
                 alt="">
               <div class="caption">
-                <h3>pybox2d &amp; pyrs<br>
+                <h3>pybox2d & pyrs<br>
                 </h3>
-                <h3><span class="label label-warning">Boost Python / Python /
-                    json </span></h3>
-                <p align="justify">pybox2d est un simulateur 2d de robot basé
-                  sur la librairie de moteur physique box2d. J'ai développé une
-                  encapsulation de la librairie à l'aide de boost python (projet
-                  pybox2d), puis un framework léger en python également qui
-                  permet de jouer des simulations.<br>
+                              <span class="label label-warning">C++ / Python</span> &nbsp;<span
+                  class="label label-info">2012</span>
+                <p align="justify">
+					<strong>PyRS</strong> est un simulateur de robot en 2 dimensions. Il permet de développer et tester des algorithmes en simulant des 
+					créatures à l'aide d'un moteur physique. La librairie utilisée est Box2D. PyRS est écrit en python. 
+					
+					<br />
+					
+					<strong>PyBox2D</strong> est un logiciel écrit en c++ qui permet d'utiliser la bibliothèque <a href="http://box2d.org/">Box2D</a> à partir de python.
+					Le port a été développé à l'aide de <a href="http://www.boost.org/doc/libs/1_51_0/libs/python/doc/">boost python</a>.
+					<br />
                 </p>
                 <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
               </div>
             </div>
           </li>
+          
+          
           <li class="span4">
-            <div class="thumbnail thum shadow"> <tt><img src="img/remoteface.png"
-                  height="200" width="300"></tt>
+            <div class="thumbnail thum shadow"> <tt><img src="img/remoteface.png"></tt>
               <div class="caption">
-                <h3>RemoteFace<br>
+                <h3>RemoteFace
                 </h3>
-                <h3><span class="label label-warning">Java / Python </span></h3>
+                             <span class="label label-warning">Java / Python</span> &nbsp;<span
+                  class="label label-info">2012</span>
                 <p align="justify">RemoteFace une application Android qui permet
-                  de déssiner des formes 2s simple tel qu'un rectangle, un
-                  cercle ou un polygone. Ces formes peuvent ensuite être
-                  modifier en temps réel à l'aide d'un protocole TCP. Le client
-                  TCP exemple est écrit en Python. L'idée est d'obtenir
-                  facilement un visage pour un robot humanoide, configurable à
+                  de déssiner des formes 2D simple (tel qu'un rectangle, un
+                  cercle ou un polygone). Ces formes peuvent ensuite être
+                  modifier en temps réel à l'aide d'un protocole TCP (position, taille, couleur, alpha).
+                  <br />
+                  Le client TCP exemple est écrit en Python.
+                  <br />
+                  L'idée du logiciel, est d'obtenir facilement un visage pour un robot humanoide, configurable à
                   la demande.<br>
                 </p>
-                <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                <p><a href="http://bechu.github.com/kartjax/" class="btn btn-primary">Voir
+                    le dépôt github</a> </p>
               </div>
             </div>
           </li>
+          
           <li class="span4">
-            <div class="thumbnail thum shadow"> <img src="http://placehold.it/300x200"
-                alt="">
+            <div class="thumbnail thum shadow"> <img src="img/kart.png">
               <div class="caption">
                 <h3>Kartjax</h3>
-                <h3><span class="label label-warning">Qt / C++ </span></h3>
-                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                  Donec id elit non mi porta gravida at eget metus. Nullam id
-                  dolor id nibh ultricies vehicula ut id elit.</p>
-                <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                               <span class="label label-warning">C++ / QT</span> &nbsp;<span
+                  class="label label-info">2010</span> 
+                  
+                <p align="justify">Kartjax est un projet de jeu vidéo en 3D : un jeu de Karting (comme supertuxkart).
+                <br />
+                Il est développer directement sur la couche OpenGL.
+                L'objectif principal de ce développement est pédagogique (constuire
+                un moteur de jeux, utiliser opengl, sérialiser en c++, revoir les arbres - octree - ...).
+                Nous avons développer des utilitaires, en Qt, comme un éditeur d'objet ou un éditeur d'animation.
+                Les bibliothèques utilisés sont donc bas niveau : OpenGL, OpenAL, freetype.
+</p>
+                <p><a href="http://bechu.github.com/kartjax/" class="btn btn-primary">Voir
+                    le site web</a></p>
               </div>
             </div>
           </li>
         </ul>
       </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       <div class="row-fluid">
         <h2>
           <div class="title">Formation</div>
@@ -337,7 +404,8 @@ de cette cible.
           </tbody>
         </table>
       </div>
-    </div>
+      <div class="row-fluid footer"> </div>
+      <hr> </div>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="js/bootstrap-carousel.js"></script>
     <script src="js/bootstrap-transition.js"></script>
@@ -347,5 +415,6 @@ de cette cible.
 interval: 3000
 });
         });
-</script> </body>
+</script>
+  </body>
 </html>
