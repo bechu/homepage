@@ -19,6 +19,15 @@
 	  })();
 
 </script>
+<style>
+.z{
+  float:right;
+  font-size:.001px;
+  color:transparent;
+  display:inline-block;
+  width:0px;
+  }
+</style>
   </head>
   <body>
     <div class="container well">
@@ -33,18 +42,23 @@
                 <tr>
                   <th><i class="icon-home icon-large"></i><br>
                   </th>
-                  <th>23 rue des Champs Elysées<br>
-                    94250 Gentilly</th>
+                  <th>23 <span class="z">COUCOU</span>rue des <span class="z">SPAM</span>Champs Elysées<br>
+                    94250 <span class="z">SALUT</span>Gentilly</th>
                 </tr>
                 <tr>
                   <th><i class="icon-envelope icon-large"></i><br>
                   </th>
-                  <th><a href="mailto:bechu.jerome@gmail.com">bechu.jerome@gmail.com</a></th>
+                  <th>
+
+bechu.<span class="z">SPAM</span>jerome@gm<span class="z">
+REMOVETHIS</span>ail.<span class="y">c</span>om
+
+                    </th>
                 </tr>
                 <tr>
                   <th><i class="icon-phone icon-large"></i><br>
                   </th>
-                  <th>06 09 57 98 42</th>
+                  <th>06 <span class="z">SPAM</span>09 <span class="z">SPAM</span>57 <span class="z">SPAM</span>98 <span class="z">SPAM</span>42</th>
                 </tr>
                 <tr>
                   <th><i class="icon-github icon-large"></i><br>
@@ -80,7 +94,7 @@ Voici mon CV numérique, cette page a pour but de présenter mon parcours profes
 <br /><br />
 
 <p align="right">
-<i class="icon-map-marker icon-large"></i> <small>Mise à jour : 02/05/2013</small>
+<i class="icon-map-marker icon-large"></i> <small>Mise à jour : 7 mai 2013</small>
 </p>
 </p>
      
@@ -181,6 +195,49 @@ Voici mon CV numérique, cette page a pour but de présenter mon parcours profes
           <div class="title">Projets professionnels</div>
         </h2>
 
+        <ul class="thumbnails">
+          <li class="span4">
+            <div class="thumbnail thum shadow"> <img src="img/naoaldeb.jpg">
+              <div class="caption">
+                <h3>Jeux sur NAO</h3>
+                <span class="label label-warning">Choregraphe</span>&nbsp; <span
+                  class="label label-info">2013</span> &nbsp;<span class="label label-success">ALDEBARAN-ROBOTICS</span>
+<p align="justify">
+Help NAO to keep alive<br>
+Ce jeux se compose de deux parties. La première est la partie narrative, elle permet aux joueurs de s'initier au particularités du NAO. Ce jeux s'appuie sur les senseurs du ANO,
+la partie narrative permet au joeur de réveiller NAO de manière progressive en utilisant ces senseurs.
+La second partie est appellé OpenPlay, c'est le mode arcade, le joueur doit trouver des séquences de touché sur NAO, afin de le sauve. Il doit trouver une séquence de 2, 3, 4 puis 5 touches ... en 1:30 mn.
+ </p>
+                <a href="http://www.youtube.com/watch?v=2uYIJAA4jMA&feature=share&list=UUlfhtoUjlb-FLnyMSrQOnMQ" class="btn btn-primary" target="_new">
+<i class="icon-facetime-video"></i> Vidéo</a>
+
+
+              </div>
+            </div>
+          </li>
+          <li class="span4">
+            <div class="thumbnail thum shadow"> <img src="img/tinybot.PNG"
+                alt="">
+              <div class="caption">
+                <h3>Sim2D<br>
+                </h3>
+                <span class="label label-warning">C++ / Python</span> &nbsp;<span
+                  class="label label-info">2013</span>
+                <p align="justify"> <strong>tinybot</strong> est un simulateur de
+                  robot en 2 dimensions. <br />
+                  Il permet de tester des
+                  algorithmes en simulant des créatures à l'aide d'un moteur
+                  physique en 2D. Ce moteur physique est Box2D.
+                  <a href="https://github.com/bechu/tinybot" target="_new">tinybot</a> est écrit en python, un autre logiciel a été écrit pour utiliser
+                  Box2D en python <a href="https://github.com/bechu/pwbox2d" target="_new">pwbox2d</a> (à l'aide de boost python).
+                </p>
+                <p><a href="http://bechu.github.io/sim2d/" class="btn btn-primary" target="_new"><i class="icon-globe"></i> Site web</a></p>
+              </div>
+            </div>
+          </li>
+          <li class="span4">
+          </li>
+        </ul>
         <p>Rapport d'activité INRIA :
           <meta http-equiv="content-type" content="text/html; charset=utf-8">
           <a href="http://raweb.inria.fr/rapportsactivite/RA2011/flowers/uid0.html" target="_new">2011</a>
@@ -209,10 +266,10 @@ Voici mon CV numérique, cette page a pour but de présenter mon parcours profes
                   parti de nos vies au quotidien.<br>
                 </p>
                 <p>
-                <a href="http://flowers.inria.fr/flowers-garage.php" class="btn btn-primary" target="_new">En
+                <a href="http://flowers.inria.fr/flowers-garage.php" class="btn btn-primary" target="_new"><i class="icon-globe"></i> En
                   savoir plus ...</a>
                 
-                <a href="http://www.youtube.com/watch?v=2uYIJAA4jMA&feature=share&list=UUlfhtoUjlb-FLnyMSrQOnMQ" class="btn btn-primary" target="_new">Vidéo</a>
+                <a href="http://www.youtube.com/watch?v=2uYIJAA4jMA&feature=share&list=UUlfhtoUjlb-FLnyMSrQOnMQ" class="btn btn-primary" target="_new"><i class="icon-facetime-video"></i> Vidéo</a>
                 </p>
               </div>
             </div>
@@ -235,10 +292,10 @@ Voici mon CV numérique, cette page a pour but de présenter mon parcours profes
                   humains créent une boucle d’interaction, et une forme nouvelle
                   de communication entre ergo-robots et humains s’auto-organise
                   au cours du temps.</p>
-                <p><a href="http://flowers.inria.fr/ergo-robots-fr.php" class="btn btn-primary" target="_new">En
+                <p><a href="http://flowers.inria.fr/ergo-robots-fr.php" class="btn btn-primary" target="_new"><i class="icon-globe"></i> En
                     savoir plus ...</a>
                     
-                <a href="http://www.youtube.com/watch?v=YP7Qn5o0ryY&feature=youtu.be" class="btn btn-primary" target="_new">Vidéo</a>
+                <a href="http://www.youtube.com/watch?v=YP7Qn5o0ryY&feature=youtu.be" class="btn btn-primary" target="_new"><i class="icon-facetime-video"></i> Vidéo</a>
                 </p>
                     
                     
@@ -261,9 +318,9 @@ Voici mon CV numérique, cette page a pour but de présenter mon parcours profes
                 </p>
                 
                 <p><a href="http://hal.inria.fr/docs/00/42/02/88/PDF/RouanetBechuOudeyerRoman09.pdf" class="btn btn-primary" target="_new">
-					Article
+					<i class="icon-download-alt"></i> Article
                 </a>
-                </a><a href="http://www.theses.fr/2012BOR14510" class="btn btn-primary" target="_new">Thèse de Pierre Rouanet</a></p>
+                </a><a href="http://www.theses.fr/2012BOR14510" class="btn btn-primary" target="_new"><i class="icon-globe"></i> Thèse de Pierre Rouanet</a></p>
               </div>
             </div>
           </li>
@@ -287,7 +344,7 @@ Voici mon CV numérique, cette page a pour but de présenter mon parcours profes
                   phase, l’apprentissage libre, le robot doit être en mesure de
                   localiser la cible à l’aide de sa caméra puis de choisir le
                   mouvement approprié pour s’approcher de cette cible. </p>
-                <p><a href="bechu_loria.pdf" class="btn btn-primary" target="_new">Télécharger
+                <p><a href="bechu_loria.pdf" class="btn btn-primary" target="_new"><i class="icon-download-alt"></i> Télécharger
                     le rapport</a></p>
               </div>
             </div>
@@ -307,7 +364,7 @@ Voici mon CV numérique, cette page a pour but de présenter mon parcours profes
                   topologie réseau pour le simulateur de réseau NS2. J'ai choisi
                   d'utiliser java et, à l'aide d'outils graphiques, je générais le
                   fichier d'entré pour le simulateur. </p>
-                <p><a href="bechu_uqam.pdf" class="btn btn-primary" target="_new">Télécharger
+                <p><a href="bechu_uqam.pdf" class="btn btn-primary" target="_new"><i class="icon-download-alt"></i> Télécharger
                     le rapport</a></p>
               </div>
             </div>
@@ -330,38 +387,12 @@ Voici mon CV numérique, cette page a pour but de présenter mon parcours profes
                   et l'ADX. Pour le second, j'ai réalisé entierement le logiciel
                   (de la spécification, au développement, tests et développement
                   des outils de maintenance).</p>
-                <p><a href="http://www.fichet-bauche.com/" class="btn btn-primary" target="_new">En
+                <p><a href="http://www.fichet-bauche.com/" class="btn btn-primary" target="_new"><i class="icon-globe"></i> En
                     savoir plus ...</a></p>
               </div>
             </div>
           </li>
         </ul>    
-
-        <ul class="thumbnails">
-          <li class="span4">
-            <div class="thumbnail thum shadow"> <img src="img/naoaldeb.jpg">
-              <div class="caption">
-                <h3>Jeux sur NAO</h3>
-                <span class="label label-warning">Choregraphe</span>&nbsp; <span
-                  class="label label-info">2013</span> &nbsp;<span class="label label-success">ALDEBARAN-ROBOTICS</span>
-<p align="justify">
-Help NAO to keep alive<br>
-Ce jeux se compose de deux parties. La première est la partie narrative, elle permet aux joueurs de s'initier au particularités du NAO. Ce jeux s'appuie sur les senseurs du ANO,
-la partie narrative permet au joeur de réveiller NAO de manière progressive en utilisant ces senseurs.
-La second partie est appellé OpenPlay, c'est le mode arcade, le joueur doit trouver des séquences de touché sur NAO, afin de le sauve. Il doit trouver une séquence de 2, 3, 4 puis 5 touches ... en 1:30 mn.
- </p>
-                <a href="http://www.youtube.com/watch?v=2uYIJAA4jMA&feature=share&list=UUlfhtoUjlb-FLnyMSrQOnMQ" class="btn btn-primary" target="_new">
-<i class="icon-facetime-video"></i>Vidéo</a>
-
-
-              </div>
-            </div>
-          </li>
-          <li class="span4">
-          </li>
-          <li class="span4">
-          </li>
-        </ul>
       </div>
 
 
@@ -371,22 +402,18 @@ La second partie est appellé OpenPlay, c'est le mode arcade, le joueur doit tro
         </h2>
         <ul class="thumbnails">
           <li class="span4">
-            <div class="thumbnail thum shadow"> <img src="img/tinybot.PNG"
-                alt="">
+            <div class="thumbnail thum shadow"> <img src="img/uno.png" alt="">
               <div class="caption">
-                <h3>TinyBot<br>
+                <h3>JuNo<br>
                 </h3>
-                <span class="label label-warning">C++ / Python</span> &nbsp;<span
-                  class="label label-info">2012</span>
-                <p align="justify"> <strong>tinybot</strong> est un simulateur de
-                  robot en 2 dimensions. <br />
-                  Il permet de tester des
-                  algorithmes en simulant des créatures à l'aide d'un moteur
-                  physique en 2D. Ce moteur physique est Box2D.
-                  <a href="https://github.com/bechu/tinybot" target="_new">tinybot</a> est écrit en python, un autre logiciel a été écrit pour utiliser
-                  Box2D en python <a href="https://github.com/bechu/pwbox2d" target="_new">pwbox2d</a> (à l'aide de boost python).
+                <span class="label label-warning">Javascript</span> &nbsp;<span
+                  class="label label-info">2013</span>
+                <p align="justify"> <strong>JuNo</strong> est un UNO en ligne permettant de jouer à partir d'un navigateur.
+                  Il a été développé pour jouer avec mon Neveu. Il comporte de nombreux bogues, mais est tout de même "exploitable"
+                  avec firefox.
+                  Codé en javascript avec Node.js coté serveur et jquery coté client.
                 </p>
-                <p><a href="http://bechu.github.com/tinybot/" class="btn btn-primary" target="_new">Voir le site web (en beta)</a></p>
+                <p><a href="http://uno.locket.fr" class="btn btn-primary" target="_new"><i class="icon-globe"></i> Demo</a></p>
               </div>
             </div>
           </li>
@@ -405,7 +432,7 @@ La second partie est appellé OpenPlay, c'est le mode arcade, le joueur doit tro
                   L'idée du logiciel, est d'obtenir facilement un visage pour un
                   robot humanoîde, configurable à la demande.<br>
                 </p>
-                <p><a href="https://github.com/bechu/RemoteFace/" class="btn btn-primary" target="_new">Voir
+                <p><a href="https://github.com/bechu/RemoteFace/" class="btn btn-primary" target="_new"><i class="icon-globe"></i> Voir
                     le dépôt github</a> </p>
               </div>
             </div>
@@ -424,7 +451,7 @@ La second partie est appellé OpenPlay, c'est le mode arcade, le joueur doit tro
                   en Qt, comme un éditeur d'objets (mesh) ou un éditeur d'animations (animated mesh). Les
                   bibliothèques utilisées sont donc bas niveau : OpenGL, OpenAL,
                   freetype. </p>
-                <p><a href="http://bechu.github.com/kartjax/" class="btn btn-primary" target="_new">Voir
+                <p><a href="http://bechu.github.com/kartjax/" class="btn btn-primary" target="_new"><i class="icon-globe"></i> Voir
                     le site web</a></p>
               </div>
             </div>
