@@ -9,7 +9,7 @@ background-image: -ms-linear-gradient(top, #FFFFFF 0%, #A3A8EF 80%);
 background-image: -moz-linear-gradient(top, #FFFFFF 0%, #A3A8EF 80%);
 
 /* Opera */
-background-image: -o-linear-gradient(top, #FFFFFF 0%, #A3A8EF 80%);
+background-image: -o-linear-gradient(top, #FFFFFF 0%, #101888 80%);
 
 /* Webkit (Safari/Chrome 10) */
 background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(0.8, #A3A8EF));
@@ -18,7 +18,7 @@ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, 
 background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #A3A8EF 80%);
 
 /* W3C Markup, IE10 Release Preview */
-background-image: linear-gradient(to bottom, #FFFFFF 0%, #A3A8EF 80%);
+background-image: linear-gradient(to bottom, #FFFFFF 0%, #08080b 80%);
 }
 
 .thum {
