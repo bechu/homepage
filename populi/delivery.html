@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Structure du projet &mdash; kinav 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kinav 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="Seconde partie : Mise en oeuvre" href="second_part.html" />
+    <link rel="next" title="Compiler kinav" href="build.html" />
+    <link rel="prev" title="Seconde partie : Mise en oeuvre" href="second_part.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="build.html" title="Compiler kinav"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="second_part.html" title="Seconde partie : Mise en oeuvre"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" accesskey="U">Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="structure-du-projet">
+<h1>Structure du projet<a class="headerlink" href="#structure-du-projet" title="Permalink to this headline">¶</a></h1>
+<p>Le répertoire du projet se compose de la façon suivante :</p>
+<div class="highlight-cpp"><div class="highlight"><pre>├── doc : ensembles des documentations et rapports du project
+│   └── sphinx
+│       └── Cette documentation
+├── src
+│   ├── fusion_laserscan
+│   │   └── Noeud ROS permettant de fusionner deux messages de type LaserScan
+│   ├── kinav
+│   │   ├── flow
+│   │   │   └── ensemble de fichiers json décrivant un flow
+│   │   ├── launch
+│   │   │   └── ros launch file pour lancer des noeuds/nodelet de kinav
+│   │   ├── scripts
+│   │   │   └── quelques scripts utiles comme la calibration
+│   │   └── src
+│   │       ├── dataflow
+│   │       │   └── code source du flow de kinav
+│   │       ├── editor
+│   │       │   └── editeur de flow (basé sur SFML)
+│   │       ├── process
+│   │       │   └── process formant la libkinav
+│   │       ├── resource_manager
+│   │       │   └── code source permettant de charger/décharger des ressources
+│   │       ├── ros
+│   │       │   └── différents main : kinav_node, nodelet, editor, test, viz
+│   │       ├── structure
+│   │       │   └── structures communes aux logiciels
+│   │       ├── tests
+│   │       │   └── tests unitaires
+│   │       ├── utils
+│   │       │   └── quelques fonctions / classes utiles
+│   │       └── viz
+│   │           └── visualisateur du noeud kinav
+│   ├── kinav_launchfiles
+│   │   └── launch file permettant de lancer des apprentissages ou des relocalisations
+│   ├── kinav_msgs
+│   │   └── message spécifiques à kinav
+│   ├── testbed
+│   │   └── code source d&#39;un site web permettant d&#39;automatiser les tests
+│   └── turtlebot
+│       └── spécialisation du noeud turtlebot de ros : ajout des caméras RGB-D
+</pre></div>
+</div>
+<p>Le répertoire doc, contient la documentation Sphinx.
+Le répertoire src contient le code source du projet.</p>
+<dl class="docutils">
+<dt>Dans src, plus particulièrement nous avons plusieurs code sources :</dt>
+<dd><ul class="first last simple">
+<li>fusion_laserscan : Noeud ROS permettant de fusionner des lasers entre eux, permet également de corriger les déformations des lasers produits, à partir des caméras RGB-D en utilisant la méthode des moindres carrés.</li>
+<li>kinav : Noeud ROS principal, contient divers livrables, tel que les noeuds permettant de se relocaliser.</li>
+<li>kinav_msgs : Ensemble de messages ROS spécifique au projet kinav.</li>
+<li>kinav_launchfiles : Ensemble de launch files permettant d&#8217;utiliser kinav.</li>
+<li>testbed : Code source django permettant d&#8217;automatiser les tests.</li>
+<li>turtlebot : Noeud ROS de description du robot (XAML).</li>
+</ul>
+</dd>
+</dl>
+<p>La bibliothèque graphique utilisée pour le projet est SFML, elle est nécessaire pour la compilation.
+Cependant <em>Kinav</em> peut tout à fait fonctionner sans elle.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="second_part.html"
+                        title="previous chapter">Seconde partie : Mise en oeuvre</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="build.html"
+                        title="next chapter">Compiler kinav</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/delivery.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="build.html" title="Compiler kinav"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="second_part.html" title="Seconde partie : Mise en oeuvre"
+             >previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" >Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jérôme Béchu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

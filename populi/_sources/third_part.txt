@@ -1,0 +1,9 @@
+Troisième partie : Algorithmes
+==============================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 3
+
+   algo

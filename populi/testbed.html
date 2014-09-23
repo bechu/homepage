@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Automatiser les tests &mdash; kinav 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kinav 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="Seconde partie : Mise en oeuvre" href="second_part.html" />
+    <link rel="next" title="Troisième partie : Algorithmes" href="third_part.html" />
+    <link rel="prev" title="Les logiciels" href="software.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="third_part.html" title="Troisième partie : Algorithmes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="software.html" title="Les logiciels"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" accesskey="U">Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="automatiser-les-tests">
+<h1>Automatiser les tests<a class="headerlink" href="#automatiser-les-tests" title="Permalink to this headline">¶</a></h1>
+<p><strong>Testbed</strong> est un outil permettant d&#8217;automatiser les tests de relocalisatioin visuelle.</p>
+<p>C&#8217;est un site web python basé sur le framework django.
+Il faut donc l&#8217;avoir installé au préalable
+<strong>Testbed</strong> utilise une base de données sqlite.</p>
+<div class="section" id="logiciels-requis">
+<h2>Logiciels requis<a class="headerlink" href="#logiciels-requis" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Django</li>
+<li>matplotlib</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="preparation-de-l-environnement">
+<h2>Préparation de l&#8217;environnement<a class="headerlink" href="#preparation-de-l-environnement" title="Permalink to this headline">¶</a></h2>
+<p>Il est nécessaire d&#8217;avoir installé kinav dans le workspace ROS comme indiqué dans la partie Installation
+de cette documentation, de telle manière à pouvoir utiliser <em>rosrun kinav_node</em> depuis la ligne de commande.</p>
+<p>Les résultats des tests seront créés dans le répertoire $HOME/results, il faut donc créer ce répertoire :</p>
+<div class="code highlight-python"><div class="highlight"><pre>mkdir $HOME/results
+</pre></div>
+</div>
+<p>De même, nous considérons que les bagfiles sont dans le répertoire $HOME/bagfiles/</p>
+<p>Lorsque ceci est fait, il est alors nécessaire de créer la base de données avec la commande suivante :</p>
+<div class="code highlight-python"><div class="highlight"><pre>python manage.py syncdb
+</pre></div>
+</div>
+<p>Une fois la base de données créer, il faut lancer le serveur web mais également un script appellé
+<em>worker.sh</em> qui aura pour tâche de traiter les jobs :</p>
+<div class="code highlight-python"><div class="highlight"><pre>$ python manage.py runserver
+Validating models...
+
+0 errors found
+July 24, 2014 - 22:25:06
+Django version 1.6.5, using settings &#39;testbed.settings&#39;
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+# dans une autre console
+$ ./worker
+</pre></div>
+</div>
+</div>
+<div class="section" id="utiliser-le-site-web">
+<h2>Utiliser le site web<a class="headerlink" href="#utiliser-le-site-web" title="Permalink to this headline">¶</a></h2>
+<p><strong>Testbed</strong> permet de créer un dictionnaire, créer des cartes métriques, d&#8217;apprendre les caractéristisques
+visuelles et d&#8217;essayer de se relocaliser.</p>
+<img alt="_images/menu_testbed.png" src="_images/menu_testbed.png" />
+<p>Comme illustré dans l&#8217;image, chaque menu permet d&#8217;accéder à la liste des occurences, d&#8217;en créer une nouvelle
+et si besoin d&#8217;obtenir des détails sur une occurence.</p>
+<p>L&#8217;image ci-dessous est un exemple de ce que l&#8217;on peut trouver dans le détail de chaque relocalisation.</p>
+<p>En vert, les positions réelles du robot lorsque l&#8217;on cherche à se relocaliser. En rouge, la position
+estimée par la relocalisation visuelle. Les traits noirs, eux, permettent de lier les couples de points.</p>
+<img alt="_images/shift.png" src="_images/shift.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Automatiser les tests</a><ul>
+<li><a class="reference internal" href="#logiciels-requis">Logiciels requis</a></li>
+<li><a class="reference internal" href="#preparation-de-l-environnement">Préparation de l&#8217;environnement</a></li>
+<li><a class="reference internal" href="#utiliser-le-site-web">Utiliser le site web</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="software.html"
+                        title="previous chapter">Les logiciels</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="third_part.html"
+                        title="next chapter">Troisième partie : Algorithmes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/testbed.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="third_part.html" title="Troisième partie : Algorithmes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="software.html" title="Les logiciels"
+             >previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" >Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jérôme Béchu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

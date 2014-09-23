@@ -1,0 +1,388 @@
+Liste des process contenu dans la bibliothèque libkinav.so
+----------------------------------------------------------
+
+AmclUpdate
+^^^^^^^^^^
+Permet de mettre à jour la position d'amcl.
+
+ - Inputs
+
+   - position [geometry_msgs::Pose2D]
+
+ - Parameters
+ - Outputs
+
+   - update [geometry_msgs::PoseWithCovarianceStamped]
+
+BagCreator
+^^^^^^^^^^
+Créer un message de type kinav_msgs/Bag.
+
+ - Inputs
+
+   - words [std_msgs::UInt32MultiArray]
+   - keypoints [KeyPoints]
+
+ - Parameters
+
+   - cam_info [sensor_msgs::CameraInfo]
+
+ - Outputs
+
+   - bag [kinav_msgs::BagMsg]
+
+Cache
+^^^^^
+Permet de stocker un message ROS, comme un buffer et d'avoir toujours la dernière version prête à être utilisée.
+
+ - Inputs
+
+   - in [Template type]
+
+ - Parameters
+
+ - Outputs
+
+   - out [Template type]
+
+Liste de class Cache utilisés :
+ - CacheImage <sensor_msgs::Image>
+ - CacheCameraInfo <sensor_msgs::CameraInfo>
+
+DicoGenerator
+^^^^^^^^^^^^^
+Créer un dictionnaire.
+
+ - Inputs
+
+   - features [Features]
+   - stop [bool]
+
+ - Parameters
+
+   - filename [std::string]
+   - cluster [std::string]
+   - max_item [std::string]
+   - max_depth [std::string]   
+   - feature_detector [std::string]
+   - feature_detector_parameters [std::string]
+   - descriptor_extractor [std::string]
+   - descriptor_extractor_parameters [std::string]
+
+
+ - Outputs
+
+DicoHandle
+^^^^^^^^^^
+Charge un dictionnaire.
+
+ - Inputs
+
+   - dicofile [std::string]
+
+ - Parameters
+
+ - Outputs
+
+   - size [int]
+   - dico [KDictionary::Ptr]
+   - feature_detector [std::string]
+   - feature_detector_parameters [std::string]
+   - descriptor_extractor [std::string]
+   - descriptor_extractor_parameters [std::string]
+
+DirectorySource
+^^^^^^^^^^^^^^^
+Parcours un répertoire et ses sous-répertoires à la recherche d'images.
+
+ - Inputs
+
+   - path [std::string]
+   - filter [std::string]
+
+ - Parameters
+
+ - Outputs
+
+   - image [sensor_msgs::Image]
+   - stop [bool]
+
+FeaturesExtractor
+^^^^^^^^^^^^^^^^^
+Génère des features à partir d'une image.
+
+ - Inputs
+
+   - image [sensor_msgs::Image]
+
+ - Parameters
+
+   - feature_detector [std::string]
+   - feature_detector_parameters [std::string]
+   - descriptor_extractor [std::string]
+   - descriptor_extractor_parameters [std::string]
+
+ - Outputs
+
+   - features [Features]
+   - debug [sensor_msgs::Image]
+   - keypoints [Keypoints]
+
+FeaturesToWords
+^^^^^^^^^^^^^^^
+Créer une liste de words à partir de features.
+
+ - Inputs
+
+   - features [Features]
+   - dico [KDictionary::Ptr]
+
+ - Parameters
+
+ - Outputs
+
+   - words [std_msgs::UInt32MultiArray]
+
+Learning
+^^^^^^^^
+Associe des words à une map à l'aide d'une grille discrétisée en location.
+
+ - Inputs
+
+   - bag_camera1 [kinav_msgs::BagMsg]
+   - bag_camera2 [kinav_msgs::BagMsg]
+   - pos_camera1 [geometry_msgs::Pose2D]
+   - pos_camera2 [geometry_msgs::Pose2D]
+
+ - Parameters
+
+   - words_path [std::string]
+   - distance [std::string]
+   - angle [std::string]
+   - location_resolution [std::string]
+   - location_orientation [std::string]
+
+ - Outputs
+
+   - grid [kinav_msgs::GridMsg]
+
+ErrorPosition
+^^^^^^^^^^^^^
+Génère deux fichiers : le premier est un indicateur d'erreur de positions, et le second contient les positions.
+
+ - Inputs
+
+   - positions1 [geometry_msgs::Pose2D]
+   - positions2 [geometry_msgs::Pose2D]
+:
+ - Parameters
+
+   - errors_output [std::string]
+   - position_output [std::string]
+
+ - Outputs
+
+Learned
+^^^^^^^
+Génére un kinav_msgs::Grid à partir d'un apprentissage.
+
+ - Inputs
+
+ - Parameters
+
+   - words_path [std::string]
+   - location_resolution [std::string]
+   - location_orientation [std::string]
+   - map [nav_msgs::OccupancyGrid]
+
+ - Outputs
+
+   - grid [kinav_msgs::GridMsg]
+
+
+Odomfilter
+^^^^^^^^^^
+Filtre basé sur l'odométrie. Il permet de générer des messages d'images et d'informations de caméra, lorsque le robot a bougé.
+
+ - Inputs
+
+   - odom [nav_msgs::Odometry]
+   - in_image [sensor_msgs::Image]
+   - in_camera_info [sensor_msgs::CameraInfo]
+
+ - Parameters
+
+   - trig_distance [std::string]
+   - trig_angle [std::string]
+   - timeout_stop [std::string]
+
+ - Outputs
+
+   - out_image [sensor_msgs::Image]
+   - out_camera_info [sensor_msgs::CameraInfo]
+
+
+OpenImage
+^^^^^^^^^^
+Ouvre une image avec OpenCV et la transforme en sensor_msgs::Image.
+
+ - Inputs
+
+ - Parameters
+
+   - filename [std::string]
+
+ - Outputs
+
+   - image [sensor_msgs::Image]
+
+
+Relocation
+^^^^^^^^^^
+Essaie de se localiser à partir d'images provenant des caméras RGB-D.
+
+ - Inputs
+
+   - words_path [std::string]
+   - location_resolution [std::string]
+   - location_orientation [std::string]
+   - map [nav_msgs::OccupancyGrid]
+   - bag1 [kinav_msgs::BagMsg]
+   - bag2 [kinav_msgs::BagMsg]
+   - tf1 [tf::Transform]
+   - tf2 [tf::Transform]
+   - compare_position [geometry_msgs::Pose2D]
+
+ - Parameters
+
+   - min_words [std::string]
+   - vote_ratio [std::string]
+   - threshold_score [std::string]
+   - enable_y_distance [std::string]
+   - y_sigma [std::string]
+   - enable_tf_idf [std::string]
+   - enable_gaussian [std::string]
+   - file_output [std::string]
+
+ - Outputs
+
+   - position [geometry_msgs::Pose2D]
+   - real_position [geometry_msgs::Pose2D]
+
+RosTwoTopicSub
+^^^^^^^^^^^^^^
+Permet de recevoir deux messages de même type de façon synchronisée.
+
+ - Inputs
+
+ - Parameters
+
+   - topic1 [std::string]
+   - topic2 [std::string]
+
+ - Outputs
+
+   - out1 [Template type]
+   - out2 [Template type]
+
+Liste de class RosTwoTopicSub utilisés :
+ - RosTwoTopicSubBagMsg <kinav_msgs::BagMsg>
+ - RosTwoTopicSubImageMsg <sensor_msgs::Image>
+ - RosTwoTopicSubCameraInfoMsg <sensor_msgs::CameraInfo>
+
+RosTopicSub
+^^^^^^^^^^^
+Permet de recevoir un message ROS.
+
+ - Inputs
+
+ - Parameters
+
+   - topic [std::string]
+
+ - Outputs
+
+   - out [Template type]
+
+Liste de class RosTopicSub utilisés :
+ - RosTopicSubImageMsg <sensor_msgs::Image>
+ - RosTopicSubPoseArrayMsg <geometry_msgs::PoseArray>
+ - RosTopicSubBooleanMsg <std_msgs::Bool>
+ - RosTopicSubGridMsg <kinav_msgs::GridMsg>
+ - RosTopicSubPose2DMsg <geometry_msgs::Pose2D>
+ - RosTopicSubBagMsg <kinav_msgs::BagMsg>
+ - RosTopicSubOccupancyGridMsg <nav_msgs::OccupancyGrid>
+ - RosTopicSubPoseWithCovarianceStampedGridMsg <geometry_msgs::PoseWithCovarianceStampedGridMsg>
+ - RosTopicSubCameraInfoMsg <sensor_msgs::CameraInfo>
+ - RosTopicSubLaserScanMsg <sensor_msgs::LaserScan>
+ - RosTopicSubOdometryMsg <nav_msgs::Odometry>
+
+RosTopicPub
+^^^^^^^^^^^
+Permet d'envoyer un message ROS.
+
+ - Inputs
+
+   - in [Template type]
+
+ - Parameters
+
+   - topic [std::string]
+
+ - Outputs
+
+
+Liste de class RosTopicSub utilisés :
+ - RosTopicPubImageMsg <sensor_msgs::Image>
+ - RosTopicPubPoseArrayMsg <geometry_msgs::PoseArray>
+ - RosTopicPubBooleanMsg <std_msgs::Bool>
+ - RosTopicPubGridMsg <kinav_msgs::GridMsg>
+ - RosTopicPubPose2DMsg <geometry_msgs::Pose2D>
+ - RosTopicPubBagMsg <kinav_msgs::BagMsg>
+ - RosTopicPubCameraInfoMsg <sensor_msgs::CameraInfo>
+
+RosTransformerListener
+^^^^^^^^^^^^^^^^^^^^^^
+Récupère un tf::Transform ou geometry_msgs::Pose2D depuis ROS tf land.
+
+ - Inputs
+
+   - target [std::string]
+   - source [std::string]
+
+ - Parameters
+
+ - Outputs
+
+   - position [geometry_msgs::Pose2D]
+   - transform [tf::Transform]
+
+
+SaveImage
+^^^^^^^^^
+Sauve une image sur le système de fichier depuis un sensor_msgs::Image.
+
+ - Inputs
+
+   - filename [std::string]
+   - image [sensor_msgs::Image]
+
+ - Parameters
+
+ - Outputs
+
+UniqueStringGenerator
+^^^^^^^^^^^^^^^^^^^^^
+Génère un string unique basé sur le temps.
+
+ - Inputs
+
+ - Parameters
+
+   - prefix [std::string]
+   - suffix [std::string]
+
+ - Outputs
+
+   - name [std::string]
+

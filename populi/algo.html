@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Extraire les caractéristiques visuelles &mdash; kinav 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kinav 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="Troisième partie : Algorithmes" href="third_part.html" />
+    <link rel="next" title="Annexes" href="annexes.html" />
+    <link rel="prev" title="Troisième partie : Algorithmes" href="third_part.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="annexes.html" title="Annexes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="third_part.html" title="Troisième partie : Algorithmes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="third_part.html" accesskey="U">Troisième partie : Algorithmes</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="extraire-les-caracteristiques-visuelles">
+<h1>Extraire les caractéristiques visuelles<a class="headerlink" href="#extraire-les-caracteristiques-visuelles" title="Permalink to this headline">¶</a></h1>
+<img alt="_images/bin.png" class="align-left" src="_images/bin.png" />
+<p>Pour améliorer la relocalisation visuelle, nous utilisons un système de découpage des images
+(appellé <em>Binary Features</em>).</p>
+<p>Ce découpage d&#8217;image est déterminé par un nombre de lignes et de colonnes (paramétrables). Nous avons
+choisi 4 lignes pour 5 colonnes.</p>
+<p>Chaque case est limité par un nombre maximum de caractéristiques visuelles utilisables.</p>
+<p>Dans notre exemple, si il y a plus de 50 <em>features</em>, elles sont triées, puis seules les 50 premières sont
+prises en compte.</p>
+<p>Ce type d&#8217;extraction d&#8217;informations, est utile pour répartir les mots sur toute l&#8217;image.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="apprentissage">
+<h1>Apprentissage<a class="headerlink" href="#apprentissage" title="Permalink to this headline">¶</a></h1>
+<p>L&#8217;apprentissage est implémentée dans la classe <strong>Learning</strong> dans le répertoire kinav/src/process.</p>
+<a class="reference internal image-reference" href="_images/weights.png"><img alt="_images/weights.png" class="align-right" src="_images/weights.png" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="_images/learn_gui.jpeg"><img alt="_images/learn_gui.jpeg" class="align-left" src="_images/learn_gui.jpeg" style="width: 400px;" /></a>
+<p>Lorsque l&#8217;on reçoit un bag d&#8217;une des deux caméras :</p>
+<p>On calcule une matrice de poids correspondant au produit des deux gaussiennes :</p>
+<blockquote>
+<div><ul class="simple">
+<li>La gaussienne de la distance;</li>
+<li>La gaussienne de l&#8217;angle;</li>
+</ul>
+</div></blockquote>
+<p>L&#8217;image de droite illuste une matrice de poids en fonction d&#8217;une position. Plus la celulle est éloignée,
+moins elle a de poids. Il en va de même pour l&#8217;angle.</p>
+<p>L&#8217;intérêt d&#8217;utiliser les gaussiennes est d&#8217;étendre les mots appris aux zones adjacentes, afin d&#8217;augmenter
+les chances de relocalisation.</p>
+<dl class="docutils">
+<dt>Puis pour chaque mot du bag, on le traite :</dt>
+<dd><ul class="first last simple">
+<li>Met à jour l&#8217;index;</li>
+<li>Met à jour l&#8217;index inversé;</li>
+<li>Met à jour la grille pour l&#8217;affichage;</li>
+</ul>
+</dd>
+</dl>
+<p>Quand toutes les images et positions ont été traitées, on appelle le service <em>kinav/SaveWords</em>,
+pour sauver tous les index inversés sur le système de fichier, ainsi que les TF/IDF.
+Les scores des index inversés sont pondérés par le <img src="_images/mathmpl/math-ade26f147c.png" style="position: relative; bottom: -3px"/>. Puis ils sont triés en fonction du
+score, de manière décroissante, et enfin enregistrées.</p>
+</div>
+<div class="section" id="relocalisation-visuelle">
+<h1>Relocalisation visuelle<a class="headerlink" href="#relocalisation-visuelle" title="Permalink to this headline">¶</a></h1>
+<p>La relocalisation est implémentée dans la classe <strong>Relocation</strong> dans le répertoire kinav/src/process.</p>
+<p>La relocalisation visuelle prend deux BagMsg en entrée et doit évaluer la position du robot à partir de
+cela. Pour réaliser cette tâche, un score est calculé pour chaque position de la grille connue.</p>
+<dl class="docutils">
+<dt>Les étapes de la relocalisation visuelle sont :</dt>
+<dd><ul class="first last simple">
+<li>Vérifier que les conditions d&#8217;entrées sont respectées (nombre de mot par exemple);</li>
+<li>Traiter chaque bag, afin de définir les scores;</li>
+<li>Evaluer la meilleure position en prenant en compte à la fois le score et le nombre de mots pour chaque emplacement;</li>
+<li>Calculer et sauvegarder quelques statistiques comme les variances et entropies.</li>
+</ul>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/reloc_gui.jpeg"><img alt="_images/reloc_gui.jpeg" class="align-left" src="_images/reloc_gui.jpeg" style="width: 500px;" /></a>
+<p>A gauche, voici un exemple de relocalisation :la couleur indiquant le nombre de mots pour chaque
+emplacement.</p>
+<p>Pour qu&#8217;une position soit sélectionnée, il faut qu&#8217;elle possède un score supérieur au seuil définit
+en entrée, mais également un nombre de mots suffisants.</p>
+<p>Enfin, nous calculons la variance des positions en fonction du score, pour déterminer s&#8217;il y a plusieurs
+positions candidats; en fonction de cela, la position est considéré comme <em>de confiance</em> ou non.</p>
+<p>Pour calculer le score d&#8217;une position, nous additionnons tous les scores des mots qui ont votés pour cette position.
+Ce score est également pondéré par TF/IDF mais également par une gaussienne en <img src="_images/mathmpl/math-a3d003a3e0.png" style="position: relative; bottom: -3px"/> de la position du mot dans l&#8217;image.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<p>Voici le pseudo-code :</p>
+<div class="code highlight-python"><div class="highlight"><pre>for Word in Bag:
+  InvertedIndex inverted_index = load(Word)
+  double score_idf = IDF(Word)
+  for Location in inverted_index:
+    double score_tf = TF(Location, Word)
+    double score_y = gaussian(Word.y, inverted_index(Location).y, 10)
+    Location real_location = Location * transform_camera_base_link
+    double total = score_idf * score_tf * score_y
+    scores[real_location] += total;
+    count[real_location] ++;
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Extraire les caractéristiques visuelles</a></li>
+<li><a class="reference internal" href="#apprentissage">Apprentissage</a></li>
+<li><a class="reference internal" href="#relocalisation-visuelle">Relocalisation visuelle</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="third_part.html"
+                        title="previous chapter">Troisième partie : Algorithmes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="annexes.html"
+                        title="next chapter">Annexes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/algo.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="annexes.html" title="Annexes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="third_part.html" title="Troisième partie : Algorithmes"
+             >previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="third_part.html" >Troisième partie : Algorithmes</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jérôme Béchu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

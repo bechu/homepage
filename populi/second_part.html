@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Seconde partie : Mise en oeuvre &mdash; kinav 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kinav 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="Structure du projet" href="delivery.html" />
+    <link rel="prev" title="Première Partie : Approche &amp; Algorithmie" href="first_part.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="delivery.html" title="Structure du projet"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="first_part.html" title="Première Partie : Approche &amp; Algorithmie"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="seconde-partie-mise-en-oeuvre">
+<h1>Seconde partie : Mise en oeuvre<a class="headerlink" href="#seconde-partie-mise-en-oeuvre" title="Permalink to this headline">¶</a></h1>
+<p>Sommaire :</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="delivery.html">Structure du projet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Compiler kinav</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build.html#liste-des-dependances">Liste des dépendances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#la-compilation">La compilation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Utiliser kinav</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#les-flow">Les <strong>flow</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#premier-exemple-d-utilisation-de-kinav">Premier exemple d&#8217;utilisation de Kinav</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#etape-1-capturer-les-donnees">Etape (1) : Capturer les données</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#etape-2-creer-un-dictionnaire">Etape (2) : Créer un dictionnaire</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#etape-3-creer-une-carte-metrique">Etape (3) : Créer une carte métrique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#etape-4-apprendre-l-environnement">Etape (4) : Apprendre l&#8217;environnement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#etape-5-se-relocaliser">Etape (5) : Se relocaliser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kinav_msgs.html">Messages ROS spécifiques à <em>Kinav</em></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kinav_msgs.html#deux-messages-utilises-pour-apprendre-et-se-relocaliser">Deux messages utilisés pour apprendre et se relocaliser :</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinav_msgs.html#les-messages-suivants-permettent-de-visualiser-les-resultats">Les messages suivants permettent de visualiser les résultats :</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_structure.html">Les structures de données</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_structure.html#dictionnaire-kdictionnary">Dictionnaire (KDictionnary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_structure.html#la-grille">La grille</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_structure.html#les-emplacements-location">Les emplacements (Location)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_structure.html#index-index">Index (Index)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_structure.html#index-inverse-invertedindex">Index inversé (InvertedIndex)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_structure.html#tf-idf">TF/IDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Les logiciels</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="software.html#fusion-laserscan">fusion_laserscan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software.html#kinav">Kinav</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="software.html#dico-flow">dico.flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="software.html#bag-flow">bag.flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="software.html#learn-flow">learn.flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="software.html#reloc-flow">reloc.flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testbed.html">Automatiser les tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testbed.html#logiciels-requis">Logiciels requis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testbed.html#preparation-de-l-environnement">Préparation de l&#8217;environnement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testbed.html#utiliser-le-site-web">Utiliser le site web</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="first_part.html"
+                        title="previous chapter">Première Partie : Approche &amp; Algorithmie</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="delivery.html"
+                        title="next chapter">Structure du projet</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/second_part.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="delivery.html" title="Structure du projet"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="first_part.html" title="Première Partie : Approche &amp; Algorithmie"
+             >previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jérôme Béchu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

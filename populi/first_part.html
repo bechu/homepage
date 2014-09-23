@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Première Partie : Approche &amp; Algorithmie &mdash; kinav 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kinav 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="Seconde partie : Mise en oeuvre" href="second_part.html" />
+    <link rel="prev" title="Bienvenue sur la documentation de kinav" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="second_part.html" title="Seconde partie : Mise en oeuvre"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Bienvenue sur la documentation de kinav"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="premiere-partie-approche-algorithmie">
+<h1>Première Partie : Approche &amp; Algorithmie<a class="headerlink" href="#premiere-partie-approche-algorithmie" title="Permalink to this headline">¶</a></h1>
+<p>Pour permettre au robot de se relocaliser, nous utilisons une approche composée de quatres phases :</p>
+<ul class="simple">
+<li>La première phase doit permettre d&#8217;utiliser le robot afin de capturer les informations nécessaires à l&#8217;apprentissage.</li>
+<li>La seconde phase consiste, à partir de lasers et des informations odométriques du robot, à créer une carte de l&#8217;environnement (carte métrique).</li>
+<li>La troisième phase, où il s&#8217;agira d&#8217;utiliser à nouveau les informations obtenues en amont, en associant des caractéristiques visuelles à&nbsp;une grille discrétisée représentant la carte métrique.</li>
+<li>La quatrième et dernière phase est la relocalisation visuelle. Elle est composée de deux modules :  un premier, se basant sur les laser, tente de se positionner sur la carte en faisant correspondre laser et carte métrique;  le second évalue la position du robot en prenant en compte les caractéristiques visuelles provenant des caméras RGB-D (relocalisation en cas de perte ou lors de l&#8217;initialisation).</li>
+</ul>
+<p>Nous allons maintenant détailler chacune des ces phases.</p>
+<div class="section" id="collecte-d-informations">
+<h2>Collecte d&#8217;informations<a class="headerlink" href="#collecte-d-informations" title="Permalink to this headline">¶</a></h2>
+<p>Pour réaliser la carte et l&#8217;apprentissage, nous avons besoin des données suivantes, provenant du robot :</p>
+<blockquote>
+<div><ul class="simple">
+<li>Un laser télémétrique (simulé par les caméras RGB-D);</li>
+<li>L&#8217;odométrie (fournie par le Turtlebot);</li>
+<li>Des images RGB (fournies par les caméras RGB-D);</li>
+<li>Des informations concernant les positions des différents équipements du robot (fournies par les transformations de <a class="reference external" href="http://www.ros.org/tf">ROS TF</a>).</li>
+</ul>
+</div></blockquote>
+<div class="section" id="simulation-d-un-laser-telemetrique">
+<h3>Simulation d&#8217;un laser télémétrique<a class="headerlink" href="#simulation-d-un-laser-telemetrique" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/laser.png"><img alt="_images/laser.png" class="align-left" src="_images/laser.png" style="width: 400px; height: 200px;" /></a>
+<p>Certains des modules de ROS que nous utilisons fonctionnent eux-même avec un télémètre laser.
+Nous avons choisi de les utiliser tels quels et de
+leur fournir un laser simulé en entrée.</p>
+<p>Ce laser simulé est créer à partir des deux caméras RGB-D.
+Le principe consiste a utiliser le nuage de points des caméras
+RGB-D, comme illustré sur l&#8217;impression écran. A partir du nuage de points, nous extrayons autour de la ligne d&#8217;horizon un certaines nombre de <em>lignes</em>.
+C&#8217;est en se basant sur ces lignes que nous construisont un message de type <em>sensor_msgs/LaserScan</em> pour chacune des caméras.</p>
+<p>Ensuite, afin d&#8217;obtenir une information de laser unique, il est nécessaire de joindre les deux messages en un seul.</p>
+<p>Dans le but d&#8217;améliorer les qualités des cartes ainsi obtenues, nous appliquons un dernier filtre, permettant
+d&#8217;amoindrir les déformations des caméras RGB-D.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">ref:</th><td class="field-body"><a class="reference external" href="software.html#fusion-laserscan">Noeud fusion laser</a></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Qualité des cartes métriques</p>
+<p class="last">Pour que le logiciel <em>Kinav</em> fonctionne correctement, il est nécessaire d&#8217;obtenir des cartes de relativement bonne qualité.
+Dans ce but, il est chaudement recommandé d&#8217;avoir un calibrage de positionement dse caméras par rapport à la base du robot extrêmement précis.</p>
+</div>
+</div>
+<div class="section" id="odometrie">
+<h3>Odométrie<a class="headerlink" href="#odometrie" title="Permalink to this headline">¶</a></h3>
+<p>L&#8217;odométrie est nécessaire à la création de la carte métrique à partir du module <a class="reference external" href="http://www.ros.org/gmapping">ROS GMapping</a>. Elle est également utilisée lors de la phase de relocalisation, puisque qu&#8217;il s&#8217;agit de la donnée d&#8217;entrée du module <a class="reference external" href="http://www.ros.org/amcl">AMCL</a>. Cette dernière est utilisée afin d&#8217;essayer d&#8217;estimer la position du robot sur la carte.</p>
+</div>
+<div class="section" id="rgb-et-informations-camera">
+<h3>RGB et informations caméra<a class="headerlink" href="#rgb-et-informations-camera" title="Permalink to this headline">¶</a></h3>
+<p>L&#8217;image RGB est utilisée pour extraire des caractéristiques visuelles. Nous utilisons OpenCV pour extraire ces informations.
+Nous ajoutons à ces informations l&#8217;angle du mot dans l&#8217;image, à partir de la position de chacune des caractéristiques visuelles.
+Ce traitement est employé lors de la phase d&#8217;exploration et de cartographie, mais également lors de la phase de relocalisation.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">ref:</th><td class="field-body"><a class="reference external" href="algo.html#extraire-les-caracteristiques-visuelles">Caractéristiques visuelles</a></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="creation-de-la-carte-metrique">
+<h2>Création de la carte métrique<a class="headerlink" href="#creation-de-la-carte-metrique" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/map_compare_asus.png"><img alt="_images/map_compare_asus.png" class="align-left" src="_images/map_compare_asus.png" style="width: 400px; height: 200px;" /></a>
+<a class="reference internal image-reference" href="_images/map_compare_laser.png"><img alt="_images/map_compare_laser.png" class="align-right" src="_images/map_compare_laser.png" style="width: 400px; height: 200px;" /></a>
+<p>Dans ce projet les cartes métriques sont créées à l&#8217;aide du module <em>GMapping</em>. Ce module a besoin
+d&#8217;un laser télémétrique et d&#8217;odométrie pour générer la carte d&#8217;occupation. Comme notre laser est beaucoup
+moins précis qu&#8217;un laser télémétrique classique, nous compensons cette lacune en favorisant les données
+odométriques.</p>
+<p>A gauche, la carte métrique a été générée à partir d&#8217;un laser généré grâce aux deux caméras RGB-D et à droite, en utilisant un réel laser télémétrique.</p>
+<p>On peut s&#8217;apercevoir qu&#8217;il est important, lors de la création de la carte, de parcourir exhaustivement les pièces du lieu à cartographier, afin d&#8217;obtenir une carte précise. En effet les angles des
+caméras RGB-D sont bien inférieurs à ceux d&#8217;une caméra télémétrique classique.</p>
+</div>
+<div class="section" id="exploration-et-cartographie">
+<h2>Exploration et cartographie<a class="headerlink" href="#exploration-et-cartographie" title="Permalink to this headline">¶</a></h2>
+<p>L&#8217;exploration permet de cartographier l&#8217;environnement en créant une carte métrique de type
+grille d&#8217;occupation (module gmapping de ROS). Cette grille sera enrichie des caractéristiques visuelles
+associées aux positions visitées par le robot, données qui permettront la relocalisation.</p>
+<p>Ces caractéristiques visuelles sont des points d&#8217;intérêt extraits des images. L&#8217;ensemble est stocké de manière compacte, à&nbsp; l&#8217;aide d&#8217;un
+dictionnaire de points d&#8217;intérêts de références (appelés mots visuels).</p>
+<a class="reference internal image-reference" href="_images/exemple_features.png"><img alt="_images/exemple_features.png" class="align-right" src="_images/exemple_features.png" style="width: 400px; height: 200px;" /></a>
+<p>Cette phase collecte des données (images RGB + profondeur) et réalise la carte de
+l&#8217;environnement. A partir du laser simulé, nous créons une carte de l&#8217;environnement à&nbsp; l&#8217;aide du
+module GMapping. Nous utilisons ensuite les données de position métrique du robot ainsi obtenues pour
+enregistrer les informations visuelles. Dans ce but, les positions sont discrétisées selon une grille
+régulière qui découpe l&#8217;environnement en cellule de 0.15 mètre et en 8 orientations. Pour chaque
+cellule visitée par le robot, nous renseignons un index inversé, qui associe à&nbsp;chaque mot
+une liste de position associés.</p>
+<p>Pour éviter de traiter trop d&#8217;informations, nous filtrons les images. Ce filtre est basé sur l&#8217;analyse
+de l&#8217;odométrie. Nous récupérons une image à chaque fois que le robot bouge (translation ou rotation). Nous prenons également une image 1s après l&#8217;arrêt du robot, afin de garantir l&#8217;obtention d&#8217;un nombre minimal d&#8217;images non floues.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A propos de la discrétisation</p>
+<p class="last">Les critères de la discrétisation de la carte métrique sous forme de grille sont paramétrables. Il est donc
+possible de spécifier une résolution et un nombre d&#8217;orientation. Il est toutefois recommandé d&#8217;utiliser au moins 4
+orientations pour permettre au module AMCL de se repositionner correctement.</p>
+</div>
+</div>
+<div class="section" id="relocalisation">
+<h2>Relocalisation<a class="headerlink" href="#relocalisation" title="Permalink to this headline">¶</a></h2>
+<p>Lors du démarrage, d&#8217;un kidnaping ou encore lorsque le module AMCL de ROS est perdu,
+nous passons à&nbsp; la relocalisation par les images.</p>
+<p>En fonctionnement  normal, la localisation sera assurée par une technique de filtrage
+particulaire utilisant la carte métrique et l&#8217;information de distance de la caméra (module AMCL de
+ROS).
+Lors de cette procédure, un indicateur de confiance est calculé sur la position estimée par le
+module AMCL : nous calculons l&#8217;entropie de l&#8217;ensemble des échantillons de position calculées. Plus
+l&#8217;entropie est grande et plus il est probable que le module se trompe.Un seuil permet de décider s&#8217;il
+est utile de ré-initialiser le module.</p>
+<p>Si le module AMCL fournit une position incertaine, alors nous utilisons la relocalisation visuelle.
+Celle-ci récupère une image sur chacune des caméras RGB-D, puis extrait les mots de ces images, et enfin
+calcule un score pour chaque position connues de notre grille.
+Si :  un des scores respecte un certain nombre de critères (voir plus bas) et que les meilleurs scores ne sont pas trop éparpillés, alors nous réinitialisons le module
+AMCL avec cette position.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Première Partie : Approche &amp; Algorithmie</a><ul>
+<li><a class="reference internal" href="#collecte-d-informations">Collecte d&#8217;informations</a><ul>
+<li><a class="reference internal" href="#simulation-d-un-laser-telemetrique">Simulation d&#8217;un laser télémétrique</a></li>
+<li><a class="reference internal" href="#odometrie">Odométrie</a></li>
+<li><a class="reference internal" href="#rgb-et-informations-camera">RGB et informations caméra</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creation-de-la-carte-metrique">Création de la carte métrique</a></li>
+<li><a class="reference internal" href="#exploration-et-cartographie">Exploration et cartographie</a></li>
+<li><a class="reference internal" href="#relocalisation">Relocalisation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Bienvenue sur la documentation de kinav</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="second_part.html"
+                        title="next chapter">Seconde partie : Mise en oeuvre</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/first_part.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="second_part.html" title="Seconde partie : Mise en oeuvre"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Bienvenue sur la documentation de kinav"
+             >previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jérôme Béchu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,202 @@
+==============
+Les logiciels
+==============
+
+*Kinav* contient plusieurs sous projets :
+ * fusion_laserscan
+    fusion de deux sensor_msgs/LaserScan;
+ * kinav_launchfiles
+    contient des launch files;
+ * kinav_msgs
+    Message spécifiques à Kinav;
+
+    :ref: `Messages <kinav_msgs.html>`_
+
+ * kinav
+    Ensemble de logiciels permettant d'apprendre et de se relocaliser;
+ * testbed
+    Site web python permettant d'automatiser les tests
+   
+    :ref: `En savoir plus <testbed.html>`_
+
+ * turtlebot
+    Description xml du turtlebot avec deux caméras ASUS Xtion Pro;
+
+
+fusion_laserscan
+================
+
+1. Algorithmes
+
+Permet de fusionner deux laser scan atour d'un tf. Utilise la méthode des moindre carré pour corriger les déformations lasers.
+
+
+2. Exemple
+
+  .. code::
+
+    roslaunch fusion_laserscan fusion.launch
+
+3. Topics souscris
+
+  * laser_link : frame pour le laser généré
+  * camera1_topic : sensor_msgs/Image de la caméra 1
+  * camera2_topic : sensor_msgs/Image de la caméra 2
+
+4. Topics publiés
+
+  * scan_topic_out : sensor_msgs/LaserScan brut
+  * scan_topic_out_fixed : sensor_msgs/LaserScan laser avec correction
+
+5. Service disponible
+6. Service appellé
+7. Paramètres
+
+  * ~camera1_fixed_coef : chemin du fichier contenant les coefficients de correction pour la caméra 1
+  * ~camera2_fixed_coef : chemin du fichier contenant les coefficients de correction pour la caméra 2
+
+.. figure:: ./images/map_diff.png
+  :width: 600
+  :align: center
+
+  A gauche, carte créée à partir d'un télémètre laser classique. A droite une carte créée à partir d'un laser lui-même créer à partir de deux caméras RGB-D.
+
+.. figure:: ./images/distord_laser1.png
+  :width: 600
+  :align: center
+
+  A gauche lasers bruts, représentant un mur à différentes distances. A droite les mêmes lasers corrigés avec la méthode des moindre carré.
+
+Kinav
+=====
+
+.. image:: ./images/kinav_libs.png
+  :width: 300
+  :align: left
+
+Kinav regroupe un certains nombre de logiciels :
+
+ - kinav_node : Noeud permet d'exécuter un *flow*;
+ - nodelet : Nodelet, même fonction que kinav_node;
+ - viz : Contient les process de kinav_node + des process de visualisation;
+ - editor : Permet d'éditer les *flows*;
+ - utest : Tests unitaires de *Kinav*
+
+Pour exécuter **editor** :
+
+.. code::
+
+  rosrun kinav editor
+
+De même pour lancer **viz** :
+
+.. code::
+
+  rosrun viz _flow:=reloc_gui.flow
+
+Et pour le neoud :
+
+.. code::
+
+  rosrun kinav_node _flow:=reloc.flow ... other parameters ...
+
+dico.flow
+^^^^^^^^^
+1. Algorithmes
+2. Exemple
+3. Topics souscris
+4. Topics publiés
+
+  * /original (sensor_msgs/Image) : Image en cours de traitement;
+  * /debug (sensor_msgs/Image) : Image de debug (avec features) en cours de traitement;
+
+5. Service disponible
+6. Service appellé
+7. Paramètres
+
+  * ~flow : nom du flow à exécuter;
+  * ~path : répertoire d'images à parcourir;
+  * ~feature_detector : SIFT, SURF, FAST;
+  * ~feature_detector_parameters : parameters for each algorithm (__name_value__other_value__);
+  * ~descriptor_extractor : SIFT, SURF, BRIEF;
+  * ~descriptor_extractor_parameters : parameters for each algorithm (__name_value__other_value__);
+  * ~cluster : nombre de cluster;
+  * ~dico : nom du dictionnaire;
+  * ~max_depth : profondeur maximum;
+  * ~max_item : nombre d'item maximal par feuille;
+  
+bag.flow
+^^^^^^^^
+1. Algorithmes
+2. Exemple
+3. Topics souscris
+
+  * /camera{1,2}/rgb/image_raw_filtered (sensor_msgs/Image) : Image à traiter;
+  * /camera{1,2}/rgb/camera_info_filtered (sensor_msgs/CameraInfo) : Info sur la caméra;
+  * from /base_link to /camera{1,2}_rgb_frame (Transform) : Position de la caméra par rapport à base_link;
+  * from /map to /camera{1,2}_rgb_frame (Transform) : Position de la caméra par rapport à map;
+
+4. Topics publiés
+   
+  * /camera{1,2}/debug (sensor_msgs/Image) : Image de debug;
+  * /kinav/camera{1,2}/bag (kinav_msgs/Bag) : sac de mots;
+
+5. Service disponible
+6. Service appellé
+7. Paramètres
+
+  * ~dico : nom du dictionnaire;
+
+learn.flow
+^^^^^^^^^^
+1. Algorithmes
+2. Exemple
+3. Topics souscris
+
+  * /camera1/debug (sensor_msgs/Image) : Image de debug;
+  * /kinav/camera1/bag (kinav_msgs/Bag) : sac de mots;
+  * /camera2/debug (sensor_msgs/Image) : Image de debug;
+  * /kinav/camera2/bag (kinav_msgs/Bag) : sac de mots;
+
+4. Topics publiés
+
+  * /kinav/grid (kinav_msgs/Grid) : Grille pour affichage;
+
+5. Service disponible
+
+  * kinav/SaveWords (Empty/Empty) : Sauvegarde les index inversés, tf/idf;
+
+6. Service appellé
+7. Paramètres
+
+  * ~distance : nombre de cellule à prendre en compte pour répartir les mots;
+  * ~orientation : nombre d'orientations (de 4 à 16);
+  * ~resolution : résolution de la grille (ex : 0.15);
+  * ~words_path : Chemin où enregistrer les mots appris;
+
+reloc.flow
+^^^^^^^^^^
+1. Algorithmes
+2. Exemple
+3. Topics souscris
+
+  * /camera1/debug (sensor_msgs/Image) : Image de debug;
+  * /kinav/bag/camera1 (kinav_msgs/Bag) : sac de mots;
+  * /camera2/debug (sensor_msgs/Image) : Image de debug;
+  * /kinav/bag/camera2 (kinav_msgs/Bag) : sac de mots;
+  * /map (sensor_msgs/OccupancyGrid) : carte métrique;
+
+4. Topics publiés
+
+  * /kinav/grid (kinav_msgs/Grid) : Grille pour affichage;
+  * /kinav/pose (geometry_msgs/Pose2D) : Position estimée;
+
+5. Service disponible
+6. Service appellé
+7. Paramètres
+
+  * ~distance : nombre de cellule à prendre en compte pour répartir les mots;
+  * ~orientation : nombre d'orientation (de 4 à 16);
+  * ~resolution : résolution de la grille (ex : 0.15);
+  * ~words_path : Chemin où enregistrer les mots appris;
+

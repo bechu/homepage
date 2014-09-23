@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Les logiciels &mdash; kinav 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kinav 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="Seconde partie : Mise en oeuvre" href="second_part.html" />
+    <link rel="next" title="Automatiser les tests" href="testbed.html" />
+    <link rel="prev" title="Les structures de données" href="data_structure.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="testbed.html" title="Automatiser les tests"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="data_structure.html" title="Les structures de données"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" accesskey="U">Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="les-logiciels">
+<h1>Les logiciels<a class="headerlink" href="#les-logiciels" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt><em>Kinav</em> contient plusieurs sous projets :</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>fusion_laserscan</dt>
+<dd><p class="first last">fusion de deux sensor_msgs/LaserScan;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>kinav_launchfiles</dt>
+<dd><p class="first last">contient des launch files;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>kinav_msgs</dt>
+<dd><p class="first">Message spécifiques à Kinav;</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">ref:</th><td class="field-body"><a class="reference external" href="kinav_msgs.html">Messages</a></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>kinav</dt>
+<dd><p class="first last">Ensemble de logiciels permettant d&#8217;apprendre et de se relocaliser;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>testbed</dt>
+<dd><p class="first">Site web python permettant d&#8217;automatiser les tests</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">ref:</th><td class="field-body"><a class="reference external" href="testbed.html">En savoir plus</a></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>turtlebot</dt>
+<dd><p class="first last">Description xml du turtlebot avec deux caméras ASUS Xtion Pro;</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="fusion-laserscan">
+<h2>fusion_laserscan<a class="headerlink" href="#fusion-laserscan" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Algorithmes</li>
+</ol>
+<p>Permet de fusionner deux laser scan atour d&#8217;un tf. Utilise la méthode des moindre carré pour corriger les déformations lasers.</p>
+<ol class="arabic simple" start="2">
+<li>Exemple</li>
+</ol>
+<blockquote>
+<div><div class="code highlight-python"><div class="highlight"><pre>roslaunch fusion_laserscan fusion.launch
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Topics souscris</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>laser_link : frame pour le laser généré</li>
+<li>camera1_topic : sensor_msgs/Image de la caméra 1</li>
+<li>camera2_topic : sensor_msgs/Image de la caméra 2</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Topics publiés</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>scan_topic_out : sensor_msgs/LaserScan brut</li>
+<li>scan_topic_out_fixed : sensor_msgs/LaserScan laser avec correction</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li>Service disponible</li>
+<li>Service appellé</li>
+<li>Paramètres</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>~camera1_fixed_coef : chemin du fichier contenant les coefficients de correction pour la caméra 1</li>
+<li>~camera2_fixed_coef : chemin du fichier contenant les coefficients de correction pour la caméra 2</li>
+</ul>
+</div></blockquote>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/map_diff.png"><img alt="_images/map_diff.png" src="_images/map_diff.png" style="width: 600px;" /></a>
+<p class="caption">A gauche, carte créée à partir d&#8217;un télémètre laser classique. A droite une carte créée à partir d&#8217;un laser lui-même créer à partir de deux caméras RGB-D.</p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/distord_laser1.png"><img alt="_images/distord_laser1.png" src="_images/distord_laser1.png" style="width: 600px;" /></a>
+<p class="caption">A gauche lasers bruts, représentant un mur à différentes distances. A droite les mêmes lasers corrigés avec la méthode des moindre carré.</p>
+</div>
+</div>
+<div class="section" id="kinav">
+<h2>Kinav<a class="headerlink" href="#kinav" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/kinav_libs.png"><img alt="_images/kinav_libs.png" class="align-left" src="_images/kinav_libs.png" style="width: 300px;" /></a>
+<p>Kinav regroupe un certains nombre de logiciels :</p>
+<blockquote>
+<div><ul class="simple">
+<li>kinav_node : Noeud permet d&#8217;exécuter un <em>flow</em>;</li>
+<li>nodelet : Nodelet, même fonction que kinav_node;</li>
+<li>viz : Contient les process de kinav_node + des process de visualisation;</li>
+<li>editor : Permet d&#8217;éditer les <em>flows</em>;</li>
+<li>utest : Tests unitaires de <em>Kinav</em></li>
+</ul>
+</div></blockquote>
+<p>Pour exécuter <strong>editor</strong> :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosrun kinav editor
+</pre></div>
+</div>
+<p>De même pour lancer <strong>viz</strong> :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosrun viz _flow:=reloc_gui.flow
+</pre></div>
+</div>
+<p>Et pour le neoud :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosrun kinav_node _flow:=reloc.flow ... other parameters ...
+</pre></div>
+</div>
+<div class="section" id="dico-flow">
+<h3>dico.flow<a class="headerlink" href="#dico-flow" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Algorithmes</li>
+<li>Exemple</li>
+<li>Topics souscris</li>
+<li>Topics publiés</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>/original (sensor_msgs/Image) : Image en cours de traitement;</li>
+<li>/debug (sensor_msgs/Image) : Image de debug (avec features) en cours de traitement;</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li>Service disponible</li>
+<li>Service appellé</li>
+<li>Paramètres</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>~flow : nom du flow à exécuter;</li>
+<li>~path : répertoire d&#8217;images à parcourir;</li>
+<li>~feature_detector : SIFT, SURF, FAST;</li>
+<li>~feature_detector_parameters : parameters for each algorithm (__name_value__other_value__);</li>
+<li>~descriptor_extractor : SIFT, SURF, BRIEF;</li>
+<li>~descriptor_extractor_parameters : parameters for each algorithm (__name_value__other_value__);</li>
+<li>~cluster : nombre de cluster;</li>
+<li>~dico : nom du dictionnaire;</li>
+<li>~max_depth : profondeur maximum;</li>
+<li>~max_item : nombre d&#8217;item maximal par feuille;</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="bag-flow">
+<h3>bag.flow<a class="headerlink" href="#bag-flow" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Algorithmes</li>
+<li>Exemple</li>
+<li>Topics souscris</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>/camera{1,2}/rgb/image_raw_filtered (sensor_msgs/Image) : Image à traiter;</li>
+<li>/camera{1,2}/rgb/camera_info_filtered (sensor_msgs/CameraInfo) : Info sur la caméra;</li>
+<li>from /base_link to /camera{1,2}_rgb_frame (Transform) : Position de la caméra par rapport à base_link;</li>
+<li>from /map to /camera{1,2}_rgb_frame (Transform) : Position de la caméra par rapport à map;</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Topics publiés</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>/camera{1,2}/debug (sensor_msgs/Image) : Image de debug;</li>
+<li>/kinav/camera{1,2}/bag (kinav_msgs/Bag) : sac de mots;</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li>Service disponible</li>
+<li>Service appellé</li>
+<li>Paramètres</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>~dico : nom du dictionnaire;</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="learn-flow">
+<h3>learn.flow<a class="headerlink" href="#learn-flow" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Algorithmes</li>
+<li>Exemple</li>
+<li>Topics souscris</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>/camera1/debug (sensor_msgs/Image) : Image de debug;</li>
+<li>/kinav/camera1/bag (kinav_msgs/Bag) : sac de mots;</li>
+<li>/camera2/debug (sensor_msgs/Image) : Image de debug;</li>
+<li>/kinav/camera2/bag (kinav_msgs/Bag) : sac de mots;</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Topics publiés</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>/kinav/grid (kinav_msgs/Grid) : Grille pour affichage;</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li>Service disponible</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>kinav/SaveWords (Empty/Empty) : Sauvegarde les index inversés, tf/idf;</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li>Service appellé</li>
+<li>Paramètres</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>~distance : nombre de cellule à prendre en compte pour répartir les mots;</li>
+<li>~orientation : nombre d&#8217;orientations (de 4 à 16);</li>
+<li>~resolution : résolution de la grille (ex : 0.15);</li>
+<li>~words_path : Chemin où enregistrer les mots appris;</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="reloc-flow">
+<h3>reloc.flow<a class="headerlink" href="#reloc-flow" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Algorithmes</li>
+<li>Exemple</li>
+<li>Topics souscris</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>/camera1/debug (sensor_msgs/Image) : Image de debug;</li>
+<li>/kinav/bag/camera1 (kinav_msgs/Bag) : sac de mots;</li>
+<li>/camera2/debug (sensor_msgs/Image) : Image de debug;</li>
+<li>/kinav/bag/camera2 (kinav_msgs/Bag) : sac de mots;</li>
+<li>/map (sensor_msgs/OccupancyGrid) : carte métrique;</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Topics publiés</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>/kinav/grid (kinav_msgs/Grid) : Grille pour affichage;</li>
+<li>/kinav/pose (geometry_msgs/Pose2D) : Position estimée;</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li>Service disponible</li>
+<li>Service appellé</li>
+<li>Paramètres</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>~distance : nombre de cellule à prendre en compte pour répartir les mots;</li>
+<li>~orientation : nombre d&#8217;orientation (de 4 à 16);</li>
+<li>~resolution : résolution de la grille (ex : 0.15);</li>
+<li>~words_path : Chemin où enregistrer les mots appris;</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Les logiciels</a><ul>
+<li><a class="reference internal" href="#fusion-laserscan">fusion_laserscan</a></li>
+<li><a class="reference internal" href="#kinav">Kinav</a><ul>
+<li><a class="reference internal" href="#dico-flow">dico.flow</a></li>
+<li><a class="reference internal" href="#bag-flow">bag.flow</a></li>
+<li><a class="reference internal" href="#learn-flow">learn.flow</a></li>
+<li><a class="reference internal" href="#reloc-flow">reloc.flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="data_structure.html"
+                        title="previous chapter">Les structures de données</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="testbed.html"
+                        title="next chapter">Automatiser les tests</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/software.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="testbed.html" title="Automatiser les tests"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="data_structure.html" title="Les structures de données"
+             >previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" >Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jérôme Béchu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

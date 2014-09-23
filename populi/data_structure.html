@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Les structures de données &mdash; kinav 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kinav 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="Seconde partie : Mise en oeuvre" href="second_part.html" />
+    <link rel="next" title="Les logiciels" href="software.html" />
+    <link rel="prev" title="Messages ROS spécifiques à Kinav" href="kinav_msgs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="software.html" title="Les logiciels"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="kinav_msgs.html" title="Messages ROS spécifiques à Kinav"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" accesskey="U">Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="les-structures-de-donnees">
+<h1>Les structures de données<a class="headerlink" href="#les-structures-de-donnees" title="Permalink to this headline">¶</a></h1>
+<p>Les structures de données décrites ici sont utilisées dans plusieurs parties du code de <em>Kinav</em>.
+Elles héritent toutes de la classe Resource, ce qui signifie que l&#8217;on peut les sauvegarder et les charger
+depuis des fichiers.</p>
+<p>Toutes les structures évoquées dans ce chapitre ont une correspondance dans le répertoire &#8220;kinav/src/structure&#8221; du code source.</p>
+<div class="section" id="dictionnaire-kdictionnary">
+<h2>Dictionnaire (KDictionnary)<a class="headerlink" href="#dictionnaire-kdictionnary" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/dic.png"><img alt="_images/dic.png" class="align-right" src="_images/dic.png" style="width: 600px;" /></a>
+<p>Le dictionnaire est une structure de données hiérarchique, qui permet de regrouper des features
+- c&#8217;est à dire des caractéristiques visuelles - ensembles, sous forme de mots.
+Cette structure se présente sous la forme d&#8217;un arbre.</p>
+<p>Ces caractéristiques visuelles sont obtenues à l&#8217;aide de la librairie OpenCV. Nous utilisons un
+<strong>feature detector</strong> pour détecter les features dans l&#8217;image puis un <strong>descriptor extractor</strong>
+pour obtenir les caractéristiques visuelles.</p>
+<p>Pour créer un dictionnaire, nous collectons un certains nombre de caractéristiques visuelles, qui vont
+être ensuite triées et groupées selon plusieurs caractéristiques permettant de les hiérarchiser. Un dictionnaire est, en fait, une structure hiérarchique en forme d&#8217;arbre où chaque feuille représente un mot.</p>
+<dl class="docutils">
+<dt>Plusieurs paramètres sont nécessaires pour créer un dictionnaire :</dt>
+<dd><ul class="first last simple">
+<li>Un nombre de cluster : lorsque l&#8217;on a trop de features dans une branche, on coupe cette branche en groupe;</li>
+<li>Une profondeur : c&#8217;est-à-dire le nombre maximum d&#8217;itérations que peut atteindre un arbre;</li>
+<li>Une limite pour couper : a partir de combien de features il possible et pertinent de couper une feuille.</li>
+</ul>
+</dd>
+</dl>
+<p>Le dictionnaire contient également les informations concernant les algorithmes utilisés dans OpenCV
+pour extraire les features et calculer les descripteurs.</p>
+<p>L&#8217;intérêt du descripteur réside dans l&#8217;utilisation qui en fait par la suite, afin de déterminer le mot plus proche de chaque
+feature, en parcourant l&#8217;arbre (c&#8217;est-à-dire la feuille la plus proche de la feature contenant le mot).</p>
+</div>
+<div class="section" id="la-grille">
+<h2>La grille<a class="headerlink" href="#la-grille" title="Permalink to this headline">¶</a></h2>
+<p>La grille n&#8217;a pas de représentation en tant que telle. Il existe une classe <strong>Location</strong> (décrite ci-dessous) contenant les primitives nécessaires pour passer du monde continu aux coordonnées discrètes.
+La grille est composées de cellules, chaque cellule étant elle-même découpée en orientation(s). La résolution et le nombre d&#8217;orientation par cellule sont paramétrables. Pour donner un exemple : on pourrait utiliser les valeurs de 0.10 en résolution et 8 en orientation.</p>
+<p>Le message <em>Grid</em> dans <em>kinav_msgs/Grid</em> est utilisé uniquement a des fins d&#8217;affichage.</p>
+</div>
+<div class="section" id="les-emplacements-location">
+<h2>Les emplacements (Location)<a class="headerlink" href="#les-emplacements-location" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/location.png"><img alt="_images/location.png" class="align-left" src="_images/location.png" style="width: 300px;" /></a>
+<p>Cette classe permet de discrétiser une position continue donnée par le robot.</p>
+<p>Une position continue est constitué de <img src="_images/mathmpl/math-e1bca7a590.png" style="position: relative; bottom: -10px"/>. Elle correspond à une position dans
+la carte métrique.</p>
+<p>Cette position identifiée par (x, y, theta), est alors réduite à une Location (x, y, orientation) qui dépend de la résolution utilisée lors de l&#8217;apprentissage mais également du nombre d&#8217;orientation.</p>
+<p>Une position discrète est constituée de <img src="_images/mathmpl/math-f17c0a456c.png" style="position: relative; bottom: -10px"/>. Cette position peut également
+être représenté par un <em>uint64_t</em> nommé en tant que <em>Location::ID</em>.</p>
+<a class="reference internal image-reference" href="_images/grid_cell.png"><img alt="_images/grid_cell.png" class="align-right" src="_images/grid_cell.png" style="width: 400px;" /></a>
+<p>Voici quelques exemples d&#8217;utilisations de la classe :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">int</span> <span class="n">orientation_size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">resolution</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">;</span>
+
+<span class="n">Location</span> <span class="n">location</span><span class="p">;</span>
+<span class="n">location</span><span class="p">.</span><span class="n">setLiterals</span><span class="p">(</span><span class="n">resolution</span><span class="p">,</span> <span class="n">orientation_size</span><span class="p">,</span> <span class="mf">123.34</span><span class="p">,</span> <span class="mf">12.34</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">);</span>
+
+<span class="c1">// to get the discrete position use the location interface :</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">location</span><span class="p">.</span><span class="n">x</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="s">&quot; &quot;</span><span class="o">&lt;&lt;</span><span class="n">location</span><span class="p">.</span><span class="n">y</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="s">&quot; &quot;</span><span class="o">&lt;&lt;</span><span class="kt">int</span><span class="p">(</span><span class="n">location</span><span class="p">.</span><span class="n">orientation</span><span class="p">())</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="c1">// it&#39;s also possible to change values:</span>
+<span class="n">location</span><span class="p">.</span><span class="n">x</span><span class="p">()</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+
+<span class="c1">// to get an unique id (uint64_t) :</span>
+<span class="n">Location</span><span class="o">::</span><span class="n">ID</span> <span class="n">id</span> <span class="o">=</span> <span class="n">Location</span><span class="o">::</span><span class="n">toID</span><span class="p">(</span><span class="n">location</span><span class="p">);</span>
+
+<span class="c1">// and reverse</span>
+<span class="n">Location</span> <span class="n">another</span> <span class="o">=</span> <span class="n">Location</span><span class="o">::</span><span class="n">toLoc</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+
+<span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">;</span>
+<span class="n">another</span><span class="p">.</span><span class="n">getLiterals</span><span class="p">(</span><span class="n">resolution</span><span class="p">,</span> <span class="n">orientation_size</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="index-index">
+<h2>Index (Index)<a class="headerlink" href="#index-index" title="Permalink to this headline">¶</a></h2>
+<p>Index est une structure de données qui contient, pour une location, une liste de Word et un compteur pour chacun d&#8217;eux.
+La liste de Word définit l&#8217;ensemble des Words vu à l&#8217;emplacement de la cellule et de l&#8217;orientation. Le compteur permet de connaître le nombre de fois où le mot a été vu.</p>
+<p>Voici un exemple de données que l&#8217;on pourrait trouver dans notre index :</p>
+<p><img src="_images/mathmpl/math-8b7e114e56.png" style="position: relative; bottom: -7px"/></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="17%" />
+<col width="8%" />
+<col width="13%" />
+<col width="15%" />
+<col width="2%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="7">location x   | location y   | orientation    | compteur</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td colspan="2">0</td>
+<td colspan="2">0</td>
+<td colspan="2">10</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td colspan="2">0</td>
+<td colspan="2">3</td>
+<td colspan="2">3</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td colspan="2">6</td>
+<td colspan="2">7</td>
+<td colspan="2">2</td>
+</tr>
+</tbody>
+</table>
+<p>Ce qui signifie que le mot 2120 a été vu à la <em>Location</em> {0, 0, 0} 10 fois,
+le mot 2120 a été vu à la <em>Location</em> {1, 0, 3} 3 fois,
+le mot 2120 a été vu à la <em>Location</em> {1, 6, 7} 2 fois.</p>
+</div>
+<div class="section" id="index-inverse-invertedindex">
+<h2>Index inversé (InvertedIndex)<a class="headerlink" href="#index-inverse-invertedindex" title="Permalink to this headline">¶</a></h2>
+<p>L&#8217;idée est d&#8217;associer à un mot du dictionnaire, une liste d&#8217;emplacement de la grille avec un score.</p>
+<p>L&#8217;index inversé est une structue de données qui associe pour un mot donné (du dictionnaire), une liste
+de <em>Location</em>.</p>
+<p>Chacune de ces locations, possède un score et une position dans l&#8217;image (x, y).</p>
+<p>Cet index inversé permet ainsi de calculer les fréquences de mots dans la map.</p>
+<p><img src="_images/mathmpl/math-69661ca00a.png" style="position: relative; bottom: -10px"/></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="19%" />
+<col width="23%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Word</th>
+<th class="head">x</th>
+<th class="head">y</th>
+<th class="head">score</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>3384</td>
+<td>120</td>
+<td>340</td>
+<td>0.078</td>
+</tr>
+<tr class="row-odd"><td>9384</td>
+<td>124</td>
+<td>222</td>
+<td>0.021</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="tf-idf">
+<h2>TF/IDF<a class="headerlink" href="#tf-idf" title="Permalink to this headline">¶</a></h2>
+<p><img src="_images/mathmpl/math-36a6a7cea7.png" style="position: relative; bottom: -3px"/> et <img src="_images/mathmpl/math-5a34fbe5e1.png" style="position: relative; bottom: -3px"/> sont deux classes.</p>
+<p><em>TF</em> signifie <strong>Term Frequency</strong>. Associé à <em>IDF</em> il permet de pondérer une recherche d&#8217;informations.
+<em>IDF</em> signifie <strong>Inverse document Frequency</strong>, c&#8217;est une mesure de l&#8217;importance d&#8217;un mot par rapport
+à l&#8217;ensemble des mots de la grille.</p>
+<p>Cette classe représente le nombre d&#8217;occurences des mots dans la grille. Pour chaque association <em>Location</em>, <em>Word</em>, un score est attribué correspondant à ce nombre d&#8217;occurences. <em>TF</em> est créé lors de l&#8217;apprentissage, puis utilisé lors de la relocalisation visuelle, permettant de pondérer le poids des mots.
+TF est une hash map de Location::ID et d&#8217;une sous-hash map de Word double. On dispose ici d&#8217;un score pour chaque Word et chaque cellule de la grille :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">typedef</span> <span class="n">hash_map</span><span class="o">&lt;</span><span class="n">Location</span><span class="o">::</span><span class="n">ID</span><span class="p">,</span> <span class="n">hash_map</span><span class="o">&lt;</span><span class="n">Word</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span> <span class="o">&gt;</span>  <span class="n">TF</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>IDF est une hash map de Word et double. Pour chaque mot, un score est calculé. IDF est juste une classe d&#8217;encapsulation de ce conteneur. Cette classe contient une liste de mot associé à un score :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">typedef</span> <span class="n">hash_map</span><span class="o">&lt;</span><span class="n">Word</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span> <span class="n">IDF</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Les structures de données</a><ul>
+<li><a class="reference internal" href="#dictionnaire-kdictionnary">Dictionnaire (KDictionnary)</a></li>
+<li><a class="reference internal" href="#la-grille">La grille</a></li>
+<li><a class="reference internal" href="#les-emplacements-location">Les emplacements (Location)</a></li>
+<li><a class="reference internal" href="#index-index">Index (Index)</a></li>
+<li><a class="reference internal" href="#index-inverse-invertedindex">Index inversé (InvertedIndex)</a></li>
+<li><a class="reference internal" href="#tf-idf">TF/IDF</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="kinav_msgs.html"
+                        title="previous chapter">Messages ROS spécifiques à <em>Kinav</em></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="software.html"
+                        title="next chapter">Les logiciels</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/data_structure.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="software.html" title="Les logiciels"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="kinav_msgs.html" title="Messages ROS spécifiques à Kinav"
+             >previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" >Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jérôme Béchu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

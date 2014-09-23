@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Utiliser kinav &mdash; kinav 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kinav 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="Seconde partie : Mise en oeuvre" href="second_part.html" />
+    <link rel="next" title="Messages ROS spécifiques à Kinav" href="kinav_msgs.html" />
+    <link rel="prev" title="Compiler kinav" href="build.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="kinav_msgs.html" title="Messages ROS spécifiques à Kinav"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="build.html" title="Compiler kinav"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" accesskey="U">Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="utiliser-kinav">
+<h1>Utiliser kinav<a class="headerlink" href="#utiliser-kinav" title="Permalink to this headline">¶</a></h1>
+<p>Dans cette partie, nous allons apprendre à utiliser <em>Kinav</em> pour réaliser un apprentissage et une relocalisation basé sur un même bag.</p>
+<p>Les noeuds de kinav exécute des <strong>flow</strong> de données. Nous allons voir dans un premier temps ce qu&#8217;est un <strong>flow</strong>.</p>
+<div class="section" id="les-flow">
+<h2>Les <strong>flow</strong><a class="headerlink" href="#les-flow" title="Permalink to this headline">¶</a></h2>
+<p>Un peu à la manière d&#8217;<a class="reference external" href="http://plasmodic.github.io/ecto/">ecto</a>, le <strong>flow</strong>
+développé est un graphe acyclique contenant des cellules appellées processus.
+Chaque processus possède des entrées et des sorties. Il est nécessaire de
+<strong>chainer</strong> les processus pour obtenir un flot de données.</p>
+<p>Un <strong>flow</strong> est donc composé de <strong>process</strong>. Chacun de ces <strong>process</strong> dispose d&#8217;entrées, de paramètres et de sorties.</p>
+<p>Les entrées et sorties sont identifiés comme étant des &#8220;port&#8221;.</p>
+<div class="align-center figure">
+<a class="reference internal image-reference" href="_images/aprocess.png"><img alt="alternate text" src="_images/aprocess.png" style="width: 400px; height: 200px;" /></a>
+<p class="caption">Exemple de process : AProcess avec deux entrées, deux paramètres et deux sorties. Remarquez qu&#8217;un paramètre peut être relié à une sortie.</p>
+</div>
+<p>L&#8217;ensemble des <strong>process</strong> forme un <strong>flow</strong> qui est exécuté dans un process monothread.</p>
+<p>Lors de l&#8217;exécution du <em>flow</em>, tous les process n&#8217;ayant pas de port d&#8217;entrée sont exécutés, puis tous les process qui ont résolu leur dépendances.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">ref:</th><td class="field-body"><a class="reference external" href="dataflow.html">En savoir plus sur les flow</a></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="premier-exemple-d-utilisation-de-kinav">
+<h2>Premier exemple d&#8217;utilisation de Kinav<a class="headerlink" href="#premier-exemple-d-utilisation-de-kinav" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="etape-1-capturer-les-donnees">
+<h3>Etape (1) : Capturer les données<a class="headerlink" href="#etape-1-capturer-les-donnees" title="Permalink to this headline">¶</a></h3>
+<p>Pour capturer les données, nous allons enregister certains <a class="reference external" href="http://wiki.ros.org/Topics">topics</a> de ROS dans un <a class="reference external" href="http://wiki.ros.org/rosbag">BagFile</a>.</p>
+<p>Notre exemple se base sur l&#8217;utilisation d&#8217;un <strong>TurtleBot 2</strong>.</p>
+<p>Sur le robot, il faut d&#8217;abord lancer le script permettant de contrôler le robot :</p>
+<div class="code highlight-python"><div class="highlight"><pre>roslaunch kinav_launchfiles base.launch
+</pre></div>
+</div>
+<p>Ce launchfile va lancer : le noeud ROS turtlebot (bringup), la description XAML du robot, le noeud permettant
+de controler le robot à partir d&#8217;une manette ainsi que le noeud permettant de créer un laser à partir de deux caméras RGB-D.</p>
+<p>Ensuite, lancer l&#8217;enregistrement des topics :</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Il est nécessaire d&#8217;avoir préalablement créer un répertoire bagfiles à la racine de votre $HOME.
+Le fichier bagfile ainsi créé possédera un nom unique composé de la date et l&#8217;heure de création.</p>
+<div class="code last highlight-python"><div class="highlight"><pre>roslaunch kinav_launchfiles record.launch
+</pre></div>
+</div>
+</div>
+<p>Il ne reste plus qu&#8217;à parcourir l&#8217;environnement !</p>
+</div>
+<div class="section" id="etape-2-creer-un-dictionnaire">
+<h3>Etape (2) : Créer un dictionnaire<a class="headerlink" href="#etape-2-creer-un-dictionnaire" title="Permalink to this headline">¶</a></h3>
+<p>Un dicionnaire a pour rôle de transformer des caractéristiques visuelles (ou features) en mots (ou Words).</p>
+<p>Pour créer un dictionnaire, nous devons donc extraire des caractéristiques visuelles à partir d&#8217;images, puis les trier afin de générer un arbre de données où chaque feuille représentera un mot.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pour créer un arbre de données, nous avons besoin de features. Dans kinav, nous prenons comme image source, les images contenues dans un répertoire. Il est préférable de composer ce répertoire avec un ensemble d&#8217;images diverses (comme des images d&#8217;intérieurs d&#8217;appartements) auxquelles s&#8217;ajoutent quelques images récupérées depuis l&#8217;environnement final.</p>
+</div>
+<p>Au préalable, il faut donc collecter suffisament d&#8217;images dans un répertoire sur votre disque dur.
+Ce répertoire peut être composé de sous-répertoires possédant également des images. Dans l&#8217;idéal, cette base
+de données d&#8217;images est composé d&#8217;images d&#8217;intérieur.</p>
+<p>Plusieurs centaines d&#8217;images devraient être suffisantes pour créer un dictionnaire.</p>
+<p>Nous devons également penser à la structure du dictionnaire, qui se résumera à la question suivante :
+Combien de mot sont nécessaires ? Plus il y a de mots, plus kinav pourra différencier les lieux entre eux. Cependant, attention, trop de mots font atteindre un seuil qui dessert l&#8217;apprentissage.</p>
+<p>Deux paramètres permettent de faire varier le nombre de mot du dictionnaire :</p>
+<blockquote>
+<div><ul class="simple">
+<li>cluster : nombre de groupe à créer lors du découpage d&#8217;une feuille;</li>
+<li>depth : profondeur maximum du dictionnaire;</li>
+</ul>
+</div></blockquote>
+<p>Pour calculer le nombre de mots, utiliser la formule suivante :</p>
+<img src="_images/mathmpl/math-77028cc792.png" class="center" /><p>Soit par exemple 2 cluster et 14 de depth :</p>
+<img src="_images/mathmpl/math-2eaf411872.png" class="center" /><p>Dernière étape de réflexion avant la création du dictionnaire : choisir quels algorithmes d&#8217;OpenCV
+utiliser pour extraire les caractéristiques visuelles et ainsi créer les descripteurs.
+Pour notre exemple, nous allons prendre <strong>SIFT</strong>.</p>
+<p>Pour lancer la création d&#8217;un dicionnaire :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosrun kinav kinav_node _flow:=dico.flow _path:=/path.../dataset/ _feature_detector:=SIFT _descriptor_extractor:=SIFT _cluster:=2 _max_depth:=13 _max_item:=100 _dico:=/path/results/mondico.dico
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Remarquez le paramètre dico, permettant de préciser ou enregistrer le dictionnaire. Il est <strong>impératif</strong> que le nom du dictionnaire se termine par <em>.dico</em>.</p>
+</div>
+<p>Ce noeud va parcourir le répertoire path, puis tous les sous-répertoires, à la recherche d&#8217;images. Il va en extraire des caractéristiques visuelles ainsi que leurs descripteurs, puis les stocker dans notre dictionnaire. Lorsqu&#8217;il n&#8217;y a
+plus d&#8217;images à traiter, les caractéristiques visuelles sont triées en fonction de leur distance.</p>
+</div>
+<div class="section" id="etape-3-creer-une-carte-metrique">
+<h3>Etape (3) : Créer une carte métrique<a class="headerlink" href="#etape-3-creer-une-carte-metrique" title="Permalink to this headline">¶</a></h3>
+<p>Cette carte est créee à partir du Noeud ROS <strong>GMapping</strong>.</p>
+<p>Nous avons définit des paramètres précis pour la génération de carte avec GMapping, dans le but de réaliser
+des cartes à partir de données moins précises qu&#8217;un télémètre laser, en favorisant, par exemple, l&#8217;odométrie
+du robot.</p>
+<p>Dans une console :</p>
+<div class="code highlight-python"><div class="highlight"><pre>roscore &amp;
+rosparam set use_sim true
+roslaunch kinav_launchfiles gmapping.launch.xml scan_topic:=scan_asus
+</pre></div>
+</div>
+<p>et dans une autre :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosbag play --clock populi-date-heure.bag
+</pre></div>
+</div>
+<p>Lorsque le bag est lu, enregistrer la carte métrique à l&#8217;aide de la commande suivante :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosrun map_server map_saver -f masupermap
+</pre></div>
+</div>
+</div>
+<div class="section" id="etape-4-apprendre-l-environnement">
+<h3>Etape (4) : Apprendre l&#8217;environnement<a class="headerlink" href="#etape-4-apprendre-l-environnement" title="Permalink to this headline">¶</a></h3>
+<p>Lors de cette étape, nous allons associer des caractéristiques visuelles avec des positions discrétisées dans une grille.</p>
+<p>Pour cette réalisation, nous allons rejouer le bag utilisé lors de la création de la carte, en lançant au préalable des noeuds nécessaires à l&#8217;opération.</p>
+<a class="reference internal image-reference" href="_images/carto.png"><img alt="_images/carto.png" class="align-right" src="_images/carto.png" style="width: 400px; height: 200px;" /></a>
+<p>On lance le serveur ROS :</p>
+<div class="code highlight-python"><div class="highlight"><pre>roscore &amp;
+rosparam set use_sim_time true
+</pre></div>
+</div>
+<p>Puis on prépare la carte métrique :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosrun map_server map_server masupermap.yaml
+</pre></div>
+</div>
+<p>On lance ensuite AMCL pour se relocaliser :</p>
+<div class="code highlight-python"><div class="highlight"><pre>roslaunch kinav amcl.launch scan_topic:=/scan_asus
+</pre></div>
+</div>
+<p>Enfin, on lance deux nodelets pour les caméras chargées d&#8217;extaire les mots des images, et le noeud
+de traitement de l&#8217;apprentissage :</p>
+<div class="code highlight-python"><div class="highlight"><pre>roslaunch kinav bag.launch dico:=mondico.dico
+rosrun kinav kinav_node _flow:=learn.flow
+  _distance:=1
+  _words_path:=/where_to_save_data/
+  _dico:=mondico.dico
+  _resolution:=0.15 _orientation:=8 &amp;
+</pre></div>
+</div>
+<p>Dernier point, on relance le <strong>même bag</strong> pris lors de la génération de la carte :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosbag play --clock $bagfile
+</pre></div>
+</div>
+<p>Lorsque le bag a fini d&#8217;être lu, on sauvegarde les données sous forme de fichiers :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosservice call /kinav/SaveWords
+</pre></div>
+</div>
+<p>Dans le répertoire défini dans <em>words_path</em>, devrait se trouver un ensemble de fichiers portant
+l&#8217;extension <em>.word</em> ainsi qu&#8217;un fichier <em>data.idf</em> et <em>data.tf</em>.</p>
+</div>
+<div class="section" id="etape-5-se-relocaliser">
+<h3>Etape (5) : Se relocaliser<a class="headerlink" href="#etape-5-se-relocaliser" title="Permalink to this headline">¶</a></h3>
+<p>On lance le serveur ROS :</p>
+<div class="code highlight-python"><div class="highlight"><pre>roscore&amp;
+rosparam set use_sim_time true
+</pre></div>
+</div>
+<p>La carte métrique et AMCL :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosrun map_server map_server mamp.yaml
+roslaunch kinav amcl.launch scan_topic:=/scan_asus
+</pre></div>
+</div>
+<p>Les nodelets pour les caméras :</p>
+<div class="code highlight-python"><div class="highlight"><pre>roslaunch kinav bag.launch dico:=mondico.dico
+</pre></div>
+</div>
+<p>Et enfin, le noeud de relocalisation visuelle. Celui-ci va se relocaliser à chaque fois qu&#8217;il le peut :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosrun kinav kinav_node _flow:=reloc.flow
+  _words_path:=$words/
+  _dico:=$dico
+  _position_file_output:=$resultdir/positions.data
+  _error_position_file_output:=$resultdir/error_position.data
+  _relocation_file_output:=$resultdir/relocation.data
+  _resolution:=$resolution _orientation:=$orientation
+  _min_words:=$min_words
+  _vote_ratio:=$vote_ratio
+  _threshold_score:=$threshold_score
+</pre></div>
+</div>
+<p>Puis lecture du bag :</p>
+<div class="code highlight-python"><div class="highlight"><pre>rosbag play --clock $bagfile
+</pre></div>
+</div>
+<p>Chaque relocalisation correcte sera publiée dans le topic <em>/kinav/pose</em>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Utiliser kinav</a><ul>
+<li><a class="reference internal" href="#les-flow">Les <strong>flow</strong></a></li>
+<li><a class="reference internal" href="#premier-exemple-d-utilisation-de-kinav">Premier exemple d&#8217;utilisation de Kinav</a><ul>
+<li><a class="reference internal" href="#etape-1-capturer-les-donnees">Etape (1) : Capturer les données</a></li>
+<li><a class="reference internal" href="#etape-2-creer-un-dictionnaire">Etape (2) : Créer un dictionnaire</a></li>
+<li><a class="reference internal" href="#etape-3-creer-une-carte-metrique">Etape (3) : Créer une carte métrique</a></li>
+<li><a class="reference internal" href="#etape-4-apprendre-l-environnement">Etape (4) : Apprendre l&#8217;environnement</a></li>
+<li><a class="reference internal" href="#etape-5-se-relocaliser">Etape (5) : Se relocaliser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="build.html"
+                        title="previous chapter">Compiler kinav</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="kinav_msgs.html"
+                        title="next chapter">Messages ROS spécifiques à <em>Kinav</em></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="kinav_msgs.html" title="Messages ROS spécifiques à Kinav"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="build.html" title="Compiler kinav"
+             >previous</a> |</li>
+        <li><a href="index.html">kinav 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="second_part.html" >Seconde partie : Mise en oeuvre</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jérôme Béchu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
