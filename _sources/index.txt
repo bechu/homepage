@@ -1,0 +1,55 @@
+.. kinav documentation master file, created by
+   sphinx-quickstart on Wed Aug 28 15:31:18 2013.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Bienvenue sur la documentation de kinav
+=======================================
+
+.. topic:: Kinav
+
+  *Kinav* est une solution logicielle dont l'objectif est de développer un module de **navigation** en 
+  utilisant des capteurs de vision et de profondeur à bas coût.
+
+
+Basé sur un robot mobile, `TurtleBot 2 <http://www.turtlebot.com/>`_, les développements ont été
+réalisés à partir de deux caméras de type ASUS Xtion Pro Live. Cette base robotique dispose également
+d'une odométrie. Du coté logiciel, *Kinav* s'appuie sur le framework Robotique 
+`ROS <http://www.ros.org/>`_ .
+
+.. image:: ./images/turtlebot.jpg
+
+Pour réaliser cette naviguation, plusieurs étapes sont nécessaires, telles que :
+
+ * Créer une carte métrique de l'environement dans lequel on souhaite naviguer;
+ * Associer des caractéristiques visuelles à partir des images RGB issues des caméras;
+ * Se relocaliser visuellement également à partir des images RGB issues des caméras.
+
+Dans une première partie, nous allons expliquer l'approche utilisée pour réaliser cette navigation. 
+Puis, dans une seconde partie, nous détaillerons les aspects techniques de la navigation, par exemple : comment utiliser
+le logiciel, ou encore, quels ont été les algorithmes retenus.
+
+Plus précisemment, notre première phase abordera la collecte d'informations, la création de la carte métrique, l'exploration
+et la cartographie et enfin, la relocalisation.
+ 
+.. topic:: Sommaire
+
+  .. toctree::
+     :maxdepth: 2
+  
+     first_part
+  
+     second_part
+
+     third_part
+  
+     annexes
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

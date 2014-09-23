@@ -1,0 +1,44 @@
+==================================
+Messages ROS spécifiques à *Kinav*
+==================================
+
+Les messages listés ci-dessous font parties du package *kinav_msgs*.
+
+Deux messages utilisés pour apprendre et se relocaliser :
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* LocalizedWordMsg
+
+  * angle (Float64) : l'angle correspondant au mot basé sur les informations caméras;
+  * x (UInt16) : la position x du mot dans l'image;
+  * y (UInt16) : la position y du mot dans l'image;
+  * word (UInt64) : identifiant unique;
+
+* BagMsg
+
+  * LocalizedWordMsg[] : Tableau de mots localisés;
+  * position (geometry_msgs/Pose2D) : position absolue de la caméra sur la carte;
+  * from_baselink (geometry_msgs/Pose2D) : transformation inverse de la caméra vers base_link;
+
+
+Les messages suivants permettent de visualiser les résultats :
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* CellPartMsg
+
+  * score (Float64) : score utilisé pour afficher une couleur;
+  * raw (Float64) : score brut;
+  * counter (Int64) : nombre de mots qui ont été vus à cet endroit;
+
+
+* CellMsg
+
+  * x (Int16) : position discrète en X;
+  * y (Int16) : position discrète en Y;
+  * parts (CellPartMsg[]) : Correspond aux orientations;
+
+
+* GridMsg
+
+  * cells (CellMsg[]) : Liste de cellules;
+
